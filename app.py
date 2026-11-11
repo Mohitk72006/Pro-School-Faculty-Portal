@@ -1,4 +1,3 @@
-
 from flask import (
     Flask,
     render_template,
@@ -304,74 +303,13 @@ def init_db():
 
 
 # ==========================================
-# LOGIN PAGE
+# PUBLIC HOME PAGE
 # ==========================================
 
 @app.route("/")
 def home():
-
-    if "faculty" in session:
-
-        return redirect(url_for("dashboard"))
-
-    return render_template("login.html")
-
-
-# ==========================================
-# FACULTY LOGIN
-# ==========================================
-
-
-@app.route("/login", methods=["POST"])
-def login():
-
-    email = request.form.get("email", "").strip()
-    password = request.form.get("password", "")
-
-    connection = get_db_connection()
-
-    account = connection.execute("""
-        SELECT *
-        FROM faculty_accounts
-        WHERE faculty_email = ?
-    """, (email,)).fetchone()
-
-    connection.close()
-
-    if account and check_password_hash(
-        account["password_hash"], password
-    ):
-
-        session.clear()
-        session["faculty"] = email
-
-        # Create a personal profile if one does not exist
-        connection = get_db_connection()
-
-        connection.execute("""
-            INSERT OR IGNORE INTO faculty_profiles (
-                faculty_email,
-                faculty_name,
-                faculty_id,
-                department
-            )
-            VALUES (?, ?, ?, ?)
-        """, (
-            email,
-            account["faculty_name"],
-            f"FAC-{account['id']:03d}",
-            "School Faculty"
-        ))
-
-        connection.commit()
-        connection.close()
-
-        return redirect(url_for("dashboard"))
-
-    return render_template(
-        "login.html",
-        error="Invalid email or password."
-    )
+    # Public home page: open the dashboard without requiring login.
+    return redirect(url_for("dashboard"))
 
 
 # ==========================================
@@ -384,9 +322,6 @@ def login():
 
 @app.route("/dashboard")
 def dashboard():
-
-    if "faculty" not in session:
-        return redirect(url_for("home"))
 
     connection = get_db_connection()
 
@@ -402,11 +337,13 @@ def dashboard():
     """).fetchone()[0]
 
     # Subjects assigned to this faculty
+    current_faculty = session.get("faculty")
+
     total_subjects = connection.execute("""
         SELECT COUNT(*)
         FROM subjects
         WHERE faculty_email = ?
-    """, (session["faculty"],)).fetchone()[0]
+    """, (current_faculty or "",)).fetchone()[0]
 
     # Total saved examination marks
     total_marks_records = connection.execute("""
@@ -441,7 +378,7 @@ def dashboard():
         total_subjects=total_subjects,
         total_marks_records=total_marks_records,
         average_attendance=average_attendance,
-        faculty_email=session["faculty"]
+        faculty_email=current_faculty or "Guest"
     )
 
 
@@ -451,11 +388,6 @@ def dashboard():
 
 @app.route("/students")
 def students():
-
-    if "faculty" not in session:
-
-        return redirect(url_for("home"))
-
     search = request.args.get("q", "").strip()
 
     connection = get_db_connection()
@@ -501,11 +433,6 @@ def students():
 
 @app.route("/students/add", methods=["POST"])
 def add_student():
-
-    if "faculty" not in session:
-
-        return redirect(url_for("home"))
-
     name = request.form.get("name", "").strip()
 
     roll_number = request.form.get(
@@ -590,11 +517,6 @@ def add_student():
     methods=["GET", "POST"]
 )
 def edit_student(student_id):
-
-    if "faculty" not in session:
-
-        return redirect(url_for("home"))
-
     connection = get_db_connection()
 
     if request.method == "POST":
@@ -702,11 +624,6 @@ def edit_student(student_id):
     methods=["POST"]
 )
 def delete_student(student_id):
-
-    if "faculty" not in session:
-
-        return redirect(url_for("home"))
-
     connection = get_db_connection()
 
     connection.execute("""
@@ -732,11 +649,6 @@ def delete_student(student_id):
 
 @app.route("/attendance")
 def attendance():
-
-    if "faculty" not in session:
-
-        return redirect(url_for("home"))
-
     selected_class = request.args.get(
         "class_name",
         SCHOOL_CLASSES[0]
@@ -843,11 +755,6 @@ def attendance():
     methods=["POST"]
 )
 def save_attendance():
-
-    if "faculty" not in session:
-
-        return redirect(url_for("home"))
-
     selected_class = request.form.get(
         "class_name", ""
     ).strip()
@@ -974,11 +881,6 @@ def save_attendance():
 
 @app.route("/marks")
 def marks():
-
-    if "faculty" not in session:
-
-        return redirect(url_for("home"))
-
     selected_class = request.args.get(
         "class_name",
         SCHOOL_CLASSES[0]
@@ -1149,11 +1051,6 @@ def marks():
     methods=["POST"]
 )
 def save_marks():
-
-    if "faculty" not in session:
-
-        return redirect(url_for("home"))
-
     selected_class = request.form.get(
         "class_name", ""
     ).strip()
@@ -1382,10 +1279,6 @@ def save_marks():
 
 @app.route("/subjects")
 def subjects():
-
-    if "faculty" not in session:
-        return redirect(url_for("home"))
-
     connection = get_db_connection()
 
     subjects_list = connection.execute("""
@@ -1393,7 +1286,7 @@ def subjects():
         FROM subjects
         WHERE faculty_email = ?
         ORDER BY class_name, subject_name
-    """, (session["faculty"],)).fetchall()
+    """, (session.get("faculty", "public@proschool.edu"),)).fetchall()
 
     connection.close()
 
@@ -1411,10 +1304,6 @@ def subjects():
 
 @app.route("/subjects/add", methods=["POST"])
 def add_subject():
-
-    if "faculty" not in session:
-        return redirect(url_for("home"))
-
     subject_name = request.form.get(
         "subject_name", ""
     ).strip()
@@ -1445,7 +1334,7 @@ def add_subject():
         """, (
             subject_name,
             class_name,
-            session["faculty"]
+            session.get("faculty", "public@proschool.edu")
         ))
 
         connection.commit()
@@ -1468,16 +1357,12 @@ def add_subject():
 
 @app.route("/subjects/delete/<int:subject_id>", methods=["POST"])
 def delete_subject(subject_id):
-
-    if "faculty" not in session:
-        return redirect(url_for("home"))
-
     connection = get_db_connection()
 
     connection.execute("""
         DELETE FROM subjects
         WHERE id = ? AND faculty_email = ?
-    """, (subject_id, session["faculty"]))
+    """, (subject_id, session.get("faculty", "public@proschool.edu")))
 
     connection.commit()
     connection.close()
@@ -1492,10 +1377,6 @@ def delete_subject(subject_id):
 
 @app.route("/timetable")
 def timetable():
-
-    if "faculty" not in session:
-        return redirect(url_for("home"))
-
     selected_class = request.args.get(
         "class_name", "all"
     ).strip()
@@ -1522,7 +1403,7 @@ def timetable():
                     WHEN 'Saturday' THEN 6
                 END,
                 period_number
-        """, (session["faculty"],)).fetchall()
+        """, (session.get("faculty", "public@proschool.edu"),)).fetchall()
 
     else:
 
@@ -1543,7 +1424,7 @@ def timetable():
                 END,
                 period_number
         """, (
-            session["faculty"],
+            session.get("faculty", "public@proschool.edu"),
             selected_class
         )).fetchall()
 
@@ -1565,10 +1446,6 @@ def timetable():
 
 @app.route("/timetable/add", methods=["POST"])
 def add_timetable():
-
-    if "faculty" not in session:
-        return redirect(url_for("home"))
-
     class_name = request.form.get(
         "class_name", ""
     ).strip()
@@ -1652,7 +1529,7 @@ def add_timetable():
             end_time,
             subject_name,
             room,
-            session["faculty"]
+            session.get("faculty", "public@proschool.edu")
         ))
 
         connection.commit()
@@ -1684,10 +1561,6 @@ def add_timetable():
     methods=["POST"]
 )
 def delete_timetable(entry_id):
-
-    if "faculty" not in session:
-        return redirect(url_for("home"))
-
     connection = get_db_connection()
 
     connection.execute("""
@@ -1696,7 +1569,7 @@ def delete_timetable(entry_id):
           AND faculty_email = ?
     """, (
         entry_id,
-        session["faculty"]
+        session.get("faculty", "public@proschool.edu")
     ))
 
     connection.commit()
@@ -1712,10 +1585,6 @@ def delete_timetable(entry_id):
 
 @app.route("/announcements")
 def announcements():
-
-    if "faculty" not in session:
-        return redirect(url_for("home"))
-
     connection = get_db_connection()
 
     announcements_list = connection.execute("""
@@ -1723,7 +1592,7 @@ def announcements():
         FROM announcements
         WHERE faculty_email = ?
         ORDER BY created_at DESC, id DESC
-    """, (session["faculty"],)).fetchall()
+    """, (session.get("faculty", "public@proschool.edu"),)).fetchall()
 
     connection.close()
 
@@ -1740,10 +1609,6 @@ def announcements():
 
 @app.route("/announcements/add", methods=["POST"])
 def add_announcement():
-
-    if "faculty" not in session:
-        return redirect(url_for("home"))
-
     title = request.form.get("title", "").strip()
 
     message = request.form.get("message", "").strip()
@@ -1776,7 +1641,7 @@ def add_announcement():
         title,
         message,
         target_class,
-        session["faculty"]
+        session.get("faculty", "public@proschool.edu")
     ))
 
     connection.commit()
@@ -1796,10 +1661,6 @@ def add_announcement():
     methods=["POST"]
 )
 def delete_announcement(announcement_id):
-
-    if "faculty" not in session:
-        return redirect(url_for("home"))
-
     connection = get_db_connection()
 
     connection.execute("""
@@ -1808,7 +1669,7 @@ def delete_announcement(announcement_id):
           AND faculty_email = ?
     """, (
         announcement_id,
-        session["faculty"]
+        session.get("faculty", "public@proschool.edu")
     ))
 
     connection.commit()
@@ -1824,11 +1685,7 @@ def delete_announcement(announcement_id):
 
 @app.route("/profile", methods=["GET", "POST"])
 def faculty_profile():
-
-    if "faculty" not in session:
-        return redirect(url_for("home"))
-
-    faculty_email = session["faculty"]
+    faculty_email = session.get("faculty", "public@proschool.edu")
 
     connection = get_db_connection()
 
@@ -2029,10 +1886,7 @@ def register():
 
 @app.route("/assignments", methods=["GET", "POST"])
 def assignments():
-    if "faculty" not in session:
-        return redirect(url_for("login"))
-
-    faculty_email = session["faculty"]
+    faculty_email = session.get("faculty", "public@proschool.edu")
     error = None
     # Ensure assignments table exists
     connection = sqlite3.connect("edumanage.db")
@@ -2116,15 +1970,12 @@ def assignments():
 
 @app.route("/assignments/delete/<int:assignment_id>", methods=["POST"])
 def delete_assignment(assignment_id):
-    if "faculty" not in session:
-        return redirect(url_for("login"))
-
     connection = sqlite3.connect("edumanage.db")
 
     connection.execute("""
         DELETE FROM assignments
         WHERE id = ? AND faculty_email = ?
-    """, (assignment_id, session["faculty"]))
+    """, (assignment_id, session.get("faculty", "public@proschool.edu")))
 
     connection.commit()
     connection.close()

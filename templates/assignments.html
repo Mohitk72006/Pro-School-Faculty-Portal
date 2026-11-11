@@ -1,0 +1,279 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assignments & Homework | Pro School</title>
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        .assignment-content { padding: 28px 32px; }
+        .assignment-card {
+            background: white;
+            padding: 24px;
+            border-radius: 14px;
+            margin-bottom: 22px;
+            border: 1px solid #e9edf5;
+        }
+        .assignment-form {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 17px;
+        }
+        .assignment-field {
+            display: grid;
+            gap: 7px;
+        }
+        .assignment-field.full { grid-column: 1 / -1; }
+        .assignment-field label {
+            font-size: 13px;
+            font-weight: 650;
+            color: #34415b;
+        }
+        .assignment-field input,
+        .assignment-field select,
+        .assignment-field textarea {
+            width: 100%;
+            padding: 11px 13px;
+            border: 1px solid #dce3ef;
+            border-radius: 9px;
+            font: inherit;
+            color: #18243b;
+            background: white;
+        }
+        .assignment-field textarea {
+            min-height: 110px;
+            resize: vertical;
+        }
+        .assignment-submit {
+            border: 0;
+            padding: 12px 20px;
+            border-radius: 9px;
+            background: #3157d5;
+            color: white;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        .assignment-submit:hover { background: #2547bd; }
+        .assignment-error {
+            background: #fff0f0;
+            color: #bd3434;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+        }
+        .delete-btn {
+            border: 0;
+            background: #fff0f0;
+            color: #d4515a;
+            border-radius: 7px;
+            padding: 8px 11px;
+            cursor: pointer;
+            font-weight: 650;
+        }
+        .empty-message {
+            padding: 25px;
+            color: #8490a5;
+            text-align: center;
+        }
+        .type-label {
+            padding: 5px 9px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            background: #eef2ff;
+            color: #3157d5;
+        }
+        @media(max-width: 700px) {
+            .assignment-content { padding: 18px 14px; }
+            .assignment-form { grid-template-columns: 1fr; }
+            .assignment-field.full { grid-column: auto; }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="portal-layout">
+
+    <aside class="portal-sidebar">
+        <h2 style="color:white; padding:20px;">P PRO SCHOOL</h2>
+
+        <nav style="padding:10px;">
+            <a href="{{ url_for('dashboard') }}">Dashboard</a><br><br>
+            <a href="{{ url_for('students') }}">Students</a><br><br>
+            <a href="{{ url_for('attendance') }}">Attendance</a><br><br>
+            <a href="{{ url_for('marks') }}">Marks & Results</a><br><br>
+            <a href="{{ url_for('subjects') }}">My Subjects</a><br><br>
+            <a href="{{ url_for('timetable') }}">Timetable</a><br><br>
+            <a href="{{ url_for('announcements') }}">Announcements</a><br><br>
+            <a href="{{ url_for('assignments') }}">Assignments & Homework</a><br><br>
+            <a href="{{ url_for('faculty_profile') }}">Faculty Profile</a><br><br>
+            <a href="{{ url_for('logout') }}">Logout</a>
+        </nav>
+    </aside>
+
+    <main class="portal-main">
+
+        <header class="portal-topbar">
+            <h2>Assignments & Homework</h2>
+            <span>{{ session.get('faculty', '') }}</span>
+        </header>
+
+        <div class="assignment-content">
+
+            <h1>Assignments & Homework</h1>
+            <p style="color:#8490a5; margin-bottom:22px;">
+                Create homework and assignments for your classes.
+            </p>
+
+            <div class="assignment-card">
+
+                <h3>Create New Work</h3>
+                <p style="color:#8490a5; font-size:13px; margin-bottom:20px;">
+                    Fill in the details to assign work to your students.
+                </p>
+
+                {% if error %}
+                    <div class="assignment-error">{{ error }}</div>
+                {% endif %}
+
+                <form method="POST"
+                      action="{{ url_for('assignments') }}"
+                      class="assignment-form">
+
+                    <div class="assignment-field">
+                        <label>Title *</label>
+                        <input type="text" name="title"
+                               placeholder="Example: Mathematics Chapter 5"
+                               required>
+                    </div>
+
+                    <div class="assignment-field">
+                        <label>Work Type *</label>
+                        <select name="work_type" required>
+                            <option value="">Select work type</option>
+                            <option value="Assignment">Assignment</option>
+                            <option value="Homework">Homework</option>
+                        </select>
+                    </div>
+
+                    <div class="assignment-field">
+                        <label>Class *</label>
+                        <select name="class_name" required>
+                            <option value="">Select class</option>
+                            {% for class_name in school_classes %}
+                                <option value="{{ class_name }}">
+                                    {{ class_name }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="assignment-field">
+                        <label>Subject *</label>
+                        <select name="subject" required>
+                            <option value="">Select subject</option>
+                            {% for subject in school_subjects %}
+                                <option value="{{ subject }}">
+                                    {{ subject }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="assignment-field">
+                        <label>Due Date *</label>
+                        <input type="date" name="due_date" required>
+                    </div>
+
+                    <div class="assignment-field">
+                        <label>Maximum Marks</label>
+                        <input type="number" name="max_marks"
+                               min="0" step="0.5" value="0">
+                    </div>
+
+                    <div class="assignment-field full">
+                        <label>Instructions / Description *</label>
+                        <textarea name="description"
+                                  placeholder="Enter assignment instructions for students..."
+                                  required></textarea>
+                    </div>
+
+                    <div class="assignment-field full">
+                        <button type="submit" class="assignment-submit">
+                            + Create Assignment
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+
+            <div class="assignment-card">
+
+                <h3>My Assignments & Homework</h3>
+
+                {% if assignments %}
+                    <div style="overflow-x:auto; margin-top:18px;">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Type</th>
+                                    <th>Class</th>
+                                    <th>Subject</th>
+                                    <th>Due Date</th>
+                                    <th>Marks</th>
+                                    <th>Instructions</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {% for item in assignments %}
+                                    <tr>
+                                        <td><strong>{{ item.title }}</strong></td>
+                                        <td>
+                                            <span class="type-label">
+                                                {{ item.work_type }}
+                                            </span>
+                                        </td>
+                                        <td>{{ item.class_name }}</td>
+                                        <td>{{ item.subject }}</td>
+                                        <td>{{ item.due_date }}</td>
+                                        <td>{{ item.max_marks }}</td>
+                                        <td style="white-space:normal; min-width:180px;">
+                                            {{ item.description }}
+                                        </td>
+                                        <td>
+                                            <form method="POST"
+                                                  action="{{ url_for('delete_assignment', assignment_id=item.id) }}"
+                                                  onsubmit="return confirm('Delete this assignment?');">
+                                                <button type="submit"
+                                                        class="delete-btn">
+                                                    Delete
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="empty-message">
+                        <h3>No assignments created yet.</h3>
+                        <p>Create your first assignment using the form above.</p>
+                    </div>
+                {% endif %}
+
+            </div>
+
+        </div>
+    </main>
+
+</div>
+
+</body>
+</html>

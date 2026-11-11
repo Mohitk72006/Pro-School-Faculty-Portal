@@ -1,0 +1,464 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ProSchool | Marks & Results</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}?v=11">
+</head>
+
+<body class="portal-body">
+
+<div class="portal-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="portal-sidebar">
+
+        <div class="portal-brand">
+            <div class="portal-logo">E</div>
+            <span>ProSchool</span>
+        </div>
+
+        <p class="sidebar-heading">SCHOOL WORKSPACE</p>
+
+        <nav class="portal-nav">
+
+            <a href="{{ url_for('dashboard') }}"
+               class="portal-nav-item">
+                <span>▦</span> Dashboard
+            </a>
+
+            <a href="{{ url_for('students') }}"
+               class="portal-nav-item">
+                <span>♙</span> Students
+            </a>
+
+            <a href="{{ url_for('attendance') }}"
+               class="portal-nav-item">
+                <span>◷</span> Attendance
+            </a>
+
+            <a href="{{ url_for('marks') }}"
+               class="portal-nav-item active">
+                <span>▤</span> Marks & Results
+            </a>
+
+            <a href="{{ url_for('subjects') }}"
+               class="portal-nav-item">
+                <span>▣</span> Subjects
+            </a>
+
+            <a href="{{ url_for('dashboard') }}"
+               class="portal-nav-item">
+                <span>▦</span> Timetable
+            </a>
+
+        </nav>
+
+        <div class="portal-sidebar-bottom">
+
+            <a href="{{ url_for('logout') }}"
+               class="portal-nav-item">
+                <span>↪</span> Logout
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+    <main class="portal-main">
+
+        <header class="portal-topbar">
+
+            <div>
+                <p class="topbar-label">SCHOOL FACULTY WORKSPACE</p>
+                <h2>Marks & Examination Results</h2>
+            </div>
+
+            <div class="faculty-profile">
+                <div class="faculty-avatar">FA</div>
+
+                <div>
+                    <h4>Faculty Account</h4>
+                    <p>School Faculty</p>
+                </div>
+            </div>
+
+        </header>
+
+
+        <div class="portal-content">
+
+            <!-- PAGE HEADING -->
+            <div class="students-heading">
+
+                <div>
+                    <h1>Examination Marks</h1>
+
+                    <p>
+                        Enter, update and manage student examination marks.
+                    </p>
+                </div>
+
+                <div class="student-count">
+                    Academic Year 2026–27
+                </div>
+
+            </div>
+
+
+            <!-- FLASH MESSAGES -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+
+                {% for category, message in messages %}
+
+                    <div class="student-message {{ category }}">
+                        {{ message }}
+                    </div>
+
+                {% endfor %}
+
+            {% endwith %}
+
+
+            <!-- EXAMINATION FILTER -->
+            <section class="student-panel">
+
+                <div class="student-panel-heading">
+                    <h3>Examination Details</h3>
+                    <p>Select standard, subject and examination.</p>
+                </div>
+
+                <form method="GET"
+                      action="{{ url_for('marks') }}">
+
+                    <div class="student-form-grid">
+
+                        <div class="student-field">
+                            <label>School Standard</label>
+
+                            <select name="class_name" required>
+
+                                {% for class_name in school_classes %}
+
+                                    <option value="{{ class_name }}"
+                                        {% if selected_class == class_name %}
+                                            selected
+                                        {% endif %}>
+                                        {{ class_name }}
+                                    </option>
+
+                                {% endfor %}
+
+                            </select>
+                        </div>
+
+
+                        <div class="student-field">
+                            <label>Subject</label>
+
+                            <select name="subject" required>
+
+                                {% for subject in subjects %}
+
+                                    <option value="{{ subject }}"
+                                        {% if selected_subject == subject %}
+                                            selected
+                                        {% endif %}>
+                                        {{ subject }}
+                                    </option>
+
+                                {% endfor %}
+
+                            </select>
+                        </div>
+
+
+                        <div class="student-field">
+                            <label>Examination</label>
+
+                            <select name="exam_name" required>
+
+                                {% for exam in exam_types %}
+
+                                    <option value="{{ exam }}"
+                                        {% if exam_name == exam %}
+                                            selected
+                                        {% endif %}>
+                                        {{ exam }}
+                                    </option>
+
+                                {% endfor %}
+
+                            </select>
+                        </div>
+
+
+                        <div class="student-field">
+                            <label>Examination Date</label>
+
+                            <input type="date"
+                                   name="exam_date"
+                                   value="{{ exam_date }}"
+                                   required>
+                        </div>
+
+
+                        <div class="student-field">
+                            <label>Maximum Marks</label>
+
+                            <input type="number"
+                                   name="max_marks"
+                                   value="{{ max_marks }}"
+                                   min="1"
+                                   max="1000"
+                                   step="0.5"
+                                   required>
+                        </div>
+
+                    </div>
+
+                    <button type="submit"
+                            class="student-primary-btn">
+                        Load Students
+                    </button>
+
+                </form>
+
+            </section>
+
+
+            <!-- SUMMARY CARDS -->
+            <section class="attendance-stat-grid">
+
+                <div class="attendance-stat-card">
+                    <span class="attendance-stat-icon blue-icon">♙</span>
+                    <p>Total Students</p>
+                    <h2>{{ total_students }}</h2>
+                </div>
+
+                <div class="attendance-stat-card">
+                    <span class="attendance-stat-icon green-icon">✓</span>
+                    <p>Marks Entered</p>
+                    <h2>{{ completed_count }}</h2>
+                </div>
+
+                <div class="attendance-stat-card">
+                    <span class="attendance-stat-icon red-icon">◷</span>
+                    <p>Pending</p>
+                    <h2>{{ pending_count }}</h2>
+                </div>
+
+                <div class="attendance-stat-card">
+                    <span class="attendance-stat-icon orange-icon">%</span>
+                    <p>Class Average</p>
+                    <h2>{{ average_marks }}%</h2>
+                </div>
+
+            </section>
+
+
+            <!-- MARKS TABLE -->
+            <section class="student-panel">
+
+                <div class="student-panel-heading">
+                    <h3>Student Examination Register</h3>
+
+                    <p>
+                        {{ selected_class }} |
+                        {{ selected_subject }} |
+                        {{ exam_name }}
+                    </p>
+                </div>
+
+
+                {% if students %}
+
+                    <form method="POST"
+                          action="{{ url_for('save_marks') }}">
+
+                        <input type="hidden"
+                               name="class_name"
+                               value="{{ selected_class }}">
+
+                        <input type="hidden"
+                               name="subject"
+                               value="{{ selected_subject }}">
+
+                        <input type="hidden"
+                               name="exam_name"
+                               value="{{ exam_name }}">
+
+                        <input type="hidden"
+                               name="exam_date"
+                               value="{{ exam_date }}">
+
+                        <input type="hidden"
+                               name="max_marks"
+                               value="{{ max_marks }}">
+
+
+                        <div class="student-table-wrapper">
+
+                            <table class="student-data-table">
+
+                                <thead>
+                                    <tr>
+                                        <th>S.No</th>
+                                        <th>Student Name</th>
+                                        <th>Admission Number</th>
+                                        <th>Marks Obtained</th>
+                                        <th>Maximum Marks</th>
+                                        <th>Grade</th>
+                                    </tr>
+                                </thead>
+
+
+                                <tbody>
+
+                                    {% for student in students %}
+
+                                        <tr>
+
+                                            <td>{{ loop.index }}</td>
+
+                                            <td>
+                                                <strong>
+                                                    {{ student.name }}
+                                                </strong>
+                                            </td>
+
+                                            <td>
+                                                {{ student.roll_number }}
+                                            </td>
+
+                                            <td>
+
+                                                <input
+                                                    type="number"
+                                                    name="marks_{{ student.id }}"
+                                                    value="{{ student.marks_obtained if student.marks_obtained is not none else '' }}"
+                                                    class="marks-input"
+                                                    min="0"
+                                                    max="{{ max_marks }}"
+                                                    step="0.5"
+                                                    placeholder="Enter marks"
+                                                    required
+                                                >
+
+                                            </td>
+
+                                            <td>{{ max_marks }}</td>
+
+                                            <td>
+
+                                                {% if student.marks_obtained is not none %}
+
+                                                    {% set percentage = (student.marks_obtained / student.max_marks * 100) %}
+
+                                                    {% if percentage >= 90 %}
+
+                                                        <span class="portal-status completed">A+</span>
+
+                                                    {% elif percentage >= 80 %}
+
+                                                        <span class="portal-status completed">A</span>
+
+                                                    {% elif percentage >= 70 %}
+
+                                                        <span class="portal-status completed">B</span>
+
+                                                    {% elif percentage >= 60 %}
+
+                                                        <span class="portal-status pending">C</span>
+
+                                                    {% elif percentage >= 50 %}
+
+                                                        <span class="portal-status pending">D</span>
+
+                                                    {% else %}
+
+                                                        <span class="portal-status failed">Fail</span>
+
+                                                    {% endif %}
+
+                                                {% else %}
+
+                                                    <span class="portal-status pending">
+                                                        Not Entered
+                                                    </span>
+
+                                                {% endif %}
+
+                                            </td>
+
+                                        </tr>
+
+                                    {% endfor %}
+
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+
+                        <div class="attendance-save-area">
+
+                            <p>
+                                Enter marks for every student before saving.
+                            </p>
+
+                            <button type="submit"
+                                    class="student-primary-btn">
+                                Save Examination Marks
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                {% else %}
+
+                    <div class="attendance-empty">
+
+                        <div>📚</div>
+
+                        <h3>No Students Found</h3>
+
+                        <p>
+                            Add students to {{ selected_class }}
+                            using Student Management before entering marks.
+                        </p>
+
+                        <a href="{{ url_for('students') }}"
+                           class="student-primary-btn">
+                            Go to Student Management
+                        </a>
+
+                    </div>
+
+                {% endif %}
+
+            </section>
+
+
+            <footer class="portal-footer">
+                © 2026 ProSchool School Faculty Portal.
+            </footer>
+
+        </div>
+
+    </main>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,2046 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    background: #f3f6fc;
+    min-height: 100vh;
+}
+
+.login-container {
+    display: flex;
+    min-height: 100vh;
+    width: 100%;
+}
+
+.login-left {
+    width: 50%;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #17233f, #3157d5);
+    color: white;
+    padding: 70px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.login-left h1 {
+    font-size: 42px;
+    margin-bottom: 55px;
+    color: white;
+}
+
+.login-left h2 {
+    font-size: 36px;
+    line-height: 1.3;
+    margin-bottom: 22px;
+    color: white;
+}
+
+.login-left p {
+    font-size: 16px;
+    line-height: 1.8;
+    color: #e0e8ff;
+    max-width: 500px;
+}
+
+.login-right {
+    width: 50%;
+    min-height: 100vh;
+    background: #f3f6fc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+}
+
+.login-right form {
+    width: 100%;
+    max-width: 420px;
+    background: white;
+    padding: 40px;
+    border-radius: 16px;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.08);
+}
+
+.login-right form h2 {
+    color: #17233f;
+    font-size: 30px;
+    margin-bottom: 12px;
+}
+
+.login-right form p {
+    color: #7a879d;
+    margin-bottom: 25px;
+    line-height: 1.5;
+}
+
+.login-right label {
+    display: block;
+    color: #34415b;
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 9px;
+}
+
+.login-right input {
+    width: 100%;
+    padding: 14px;
+    border: 1px solid #dce3ef;
+    border-radius: 8px;
+    margin-bottom: 22px;
+    font-size: 14px;
+    outline: none;
+    background: white;
+}
+
+.login-right input:focus {
+    border-color: #3157d5;
+    box-shadow: 0 0 0 3px rgba(49, 87, 213, 0.12);
+}
+
+.login-right button {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 8px;
+    background: #3157d5;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.login-right button:hover {
+    background: #2547bd;
+}
+
+.login-right .error {
+    color: #d62828;
+    font-size: 14px;
+}
+
+.demo-note {
+    text-align: center;
+    font-size: 12px;
+    margin-top: 20px;
+    color: #8995a8;
+}
+
+@media (max-width: 768px) {
+    .login-container {
+        flex-direction: column;
+    }
+
+    .login-left,
+    .login-right {
+        width: 100%;
+    }
+
+    .login-left {
+        min-height: 350px;
+        padding: 35px;
+    }
+
+    .login-left h1 {
+        margin-bottom: 30px;
+    }
+
+    .login-left h2 {
+        font-size: 28px;
+    }
+
+    .login-right {
+        min-height: 500px;
+    }
+}
+
+/* ==================================
+   ProSchool DASHBOARD DESIGN
+================================== */
+
+body {
+    margin: 0;
+    background: #f3f6fc;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #17233f;
+}
+
+.dashboard {
+    min-height: 100vh;
+    padding: 45px;
+    background: #f3f6fc;
+}
+
+.dashboard h1 {
+    color: #17233f;
+    font-size: 32px;
+    margin-bottom: 12px;
+}
+
+.dashboard h2 {
+    color: #3157d5;
+    font-size: 22px;
+    margin-bottom: 30px;
+}
+
+.dashboard-cards {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 25px;
+    margin-top: 25px;
+}
+
+.card {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    border: 1px solid #e5eaf3;
+    box-shadow: 0 8px 25px rgba(23, 35, 63, 0.06);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 28px rgba(23, 35, 63, 0.12);
+}
+
+.card h3 {
+    color: #3157d5;
+    font-size: 20px;
+    margin-bottom: 12px;
+}
+
+.card p {
+    color: #7a879d;
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+.dashboard a {
+    display: inline-block;
+    margin-top: 30px;
+    padding: 12px 25px;
+    background: #3157d5;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+}
+
+.dashboard a:hover {
+    background: #2547bd;
+}
+
+@media (max-width: 650px) {
+    .dashboard {
+        padding: 25px 18px;
+    }
+
+    .dashboard-cards {
+        grid-template-columns: 1fr;
+    }
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ProSchool | Faculty Dashboard</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}?v=3">
+</head>
+
+<body class="portal-body">
+
+<div class="portal-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="portal-sidebar">
+
+        <div class="portal-brand">
+            <div class="portal-logo">E</div>
+            <span>ProSchool</span>
+        </div>
+
+        <p class="sidebar-heading">WORKSPACE</p>
+
+        <nav class="portal-nav">
+            <a href="#dashboard" class="portal-nav-item active">
+                <span>▦</span> Dashboard
+            </a>
+
+            <a href="#students" class="portal-nav-item">
+                <span>♙</span> Students
+            </a>
+
+            <a href="#attendance" class="portal-nav-item">
+                <span>◷</span> Attendance
+            </a>
+
+            <a href="#marks" class="portal-nav-item">
+                <span>▤</span> Marks & Results
+            </a>
+
+            <a href="#subjects" class="portal-nav-item">
+                <span>▣</span> My Subjects
+            </a>
+
+            <a href="#timetable" class="portal-nav-item">
+                <span>▦</span> Timetable
+            </a>
+
+            <a href="#announcements" class="portal-nav-item">
+                <span>♢</span> Announcements
+            </a>
+        </nav>
+
+        <div class="portal-sidebar-bottom">
+            <a href="#profile" class="portal-nav-item">
+                <span>⚙</span> Faculty Profile
+            </a>
+
+            <a href="{{ url_for('logout') }}" class="portal-nav-item">
+                <span>↪</span> Logout
+            </a>
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+    <main class="portal-main">
+
+        <!-- TOP NAVIGATION -->
+        <header class="portal-topbar">
+
+            <div>
+                <p class="topbar-label">FACULTY WORKSPACE</p>
+                <h2>Dashboard</h2>
+            </div>
+
+            <div class="topbar-right">
+
+                <input type="search"
+                       placeholder="Search students, subjects..."
+                       class="portal-search">
+
+                <div class="faculty-profile">
+
+                    <div class="faculty-avatar">FA</div>
+
+                    <div>
+                        <h4>Faculty Account</h4>
+                        <p>Computer Science Department</p>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- DASHBOARD CONTENT -->
+        <div class="portal-content" id="dashboard">
+
+            <div class="dashboard-welcome">
+
+                <div>
+                    <h1>Welcome Back, Faculty! 👋</h1>
+                    <p>Here is what's happening with your classes today.</p>
+                </div>
+
+                <div class="date-label">
+                    📅 Academic Year 2026–27
+                </div>
+
+            </div>
+
+
+            <!-- STATISTICS CARDS -->
+            <section class="portal-stats">
+
+                <div class="portal-stat-card">
+                    <div class="stat-icon blue-icon">♙</div>
+                    <p>Total Students</p>
+                    <h2>248</h2>
+                    <span>Students across your classes</span>
+                </div>
+
+                <div class="portal-stat-card">
+                    <div class="stat-icon green-icon">▣</div>
+                    <p>My Subjects</p>
+                    <h2>05</h2>
+                    <span>Assigned subjects</span>
+                </div>
+
+                <div class="portal-stat-card">
+                    <div class="stat-icon orange-icon">◷</div>
+                    <p>Average Attendance</p>
+                    <h2>82.4%</h2>
+                    <span>Overall attendance rate</span>
+                </div>
+
+                <div class="portal-stat-card">
+                    <div class="stat-icon purple-icon">▤</div>
+                    <p>Pending Marks</p>
+                    <h2>18</h2>
+                    <span>Marks awaiting submission</span>
+                </div>
+
+            </section>
+
+
+            <!-- MIDDLE SECTION -->
+            <section class="portal-dashboard-grid">
+
+                <!-- STUDENT ACTIVITY -->
+                <div class="portal-panel">
+
+                    <div class="portal-panel-heading">
+                        <h3>Recent Student Activity</h3>
+                        <a href="#students">View All →</a>
+                    </div>
+
+                    <div class="portal-table-wrapper">
+
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Student</th>
+                                    <th>Class</th>
+                                    <th>Activity</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+
+                                <tr>
+                                    <td>Sneha Patel</td>
+                                    <td>III CSE-A</td>
+                                    <td>Assignment submitted</td>
+                                    <td><span class="portal-status completed">Completed</span></td>
+                                </tr>
+
+                                <tr>
+                                    <td>Rahul Kumar</td>
+                                    <td>III CSE-A</td>
+                                    <td>Internal assessment</td>
+                                    <td><span class="portal-status pending">Pending</span></td>
+                                </tr>
+
+                                <tr>
+                                    <td>Aisha Mohammed</td>
+                                    <td>II CSE-B</td>
+                                    <td>Attendance updated</td>
+                                    <td><span class="portal-status completed">Completed</span></td>
+                                </tr>
+
+                                <tr>
+                                    <td>Karthik V</td>
+                                    <td>III CSE-A</td>
+                                    <td>Project review</td>
+                                    <td><span class="portal-status pending">Scheduled</span></td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                </div>
+
+
+                <!-- TODAY'S CLASSES -->
+                <div class="portal-panel">
+
+                    <div class="portal-panel-heading">
+                        <h3>Today's Classes</h3>
+                        <a href="#timetable">Full Timetable →</a>
+                    </div>
+
+                    <div class="portal-class-list">
+
+                        <div class="portal-class">
+                            <div class="class-indicator"></div>
+                            <div>
+                                <h4>Data Structures & Algorithms</h4>
+                                <p>III CSE-A · Room 204</p>
+                            </div>
+                            <strong>09:00 AM</strong>
+                        </div>
+
+                        <div class="portal-class">
+                            <div class="class-indicator green-indicator"></div>
+                            <div>
+                                <h4>Database Management Systems</h4>
+                                <p>II CSE-B · Lab 2</p>
+                            </div>
+                            <strong>11:00 AM</strong>
+                        </div>
+
+                        <div class="portal-class">
+                            <div class="class-indicator orange-indicator"></div>
+                            <div>
+                                <h4>Operating Systems</h4>
+                                <p>III CSE-A · Room 204</p>
+                            </div>
+                            <strong>02:00 PM</strong>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- BOTTOM SECTION -->
+            <section class="portal-dashboard-grid bottom-section">
+
+                <!-- ATTENDANCE -->
+                <div class="portal-panel">
+
+                    <div class="portal-panel-heading">
+                        <h3>Attendance Overview</h3>
+                        <a href="#attendance">Manage →</a>
+                    </div>
+
+                    <div class="attendance-content">
+
+                        <div class="attendance-circle">
+                            <div>
+                                <strong>82.4%</strong>
+                                <span>Average</span>
+                            </div>
+                        </div>
+
+                        <div class="attendance-details">
+
+                            <p>
+                                <span class="legend-blue"></span>
+                                Present
+                                <strong>82.4%</strong>
+                            </p>
+
+                            <p>
+                                <span class="legend-grey"></span>
+                                Absent
+                                <strong>17.6%</strong>
+                            </p>
+
+                            <p>
+                                <span class="legend-red"></span>
+                                Below 75%
+                                <strong>23 Students</strong>
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ANNOUNCEMENTS -->
+                <div class="portal-panel">
+
+                    <div class="portal-panel-heading">
+                        <h3>Announcements</h3>
+                        <a href="#announcements">See All →</a>
+                    </div>
+
+                    <div class="portal-notice">
+                        <div class="notice-icon">📌</div>
+                        <div>
+                            <h4>Internal Assessment Schedule</h4>
+                            <p>IA-2 marks entry closes on Friday, November 6.</p>
+                        </div>
+                    </div>
+
+                    <div class="portal-notice">
+                        <div class="notice-icon">📚</div>
+                        <div>
+                            <h4>Faculty Meeting</h4>
+                            <p>Department meeting tomorrow at 3:30 PM.</p>
+                        </div>
+                    </div>
+
+                </div>
+
+            </section>
+
+            <footer class="portal-footer">
+                © 2026 ProSchool Faculty Portal. All rights reserved.
+            </footer>
+
+        </div>
+
+    </main>
+
+</div>
+
+</body>
+</html>
+
+/* ==========================================
+   ProSchool PROFESSIONAL DASHBOARD
+========================================== */
+
+.portal-body {
+    margin: 0;
+    background: #f3f6fc;
+    color: #18243b;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.portal-layout {
+    display: grid;
+    grid-template-columns: 245px minmax(0, 1fr);
+    min-height: 100vh;
+}
+
+/* SIDEBAR */
+
+.portal-sidebar {
+    background: #17233f;
+    color: white;
+    min-height: 100vh;
+    padding: 25px 16px;
+    display: flex;
+    flex-direction: column;
+}
+.portal-main {
+    min-width: 0;
+    background: #f3f6fc;
+}
+
+.portal-topbar {
+    min-height: 76px;
+    background: white;
+    border-bottom: 1px solid #e8edf5;
+    padding: 0 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.portal-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 21px;
+    font-weight: bold;
+    padding: 5px 10px 35px;
+}
+
+.portal-logo {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    background: #3157d5;
+    color: white;
+    display: grid;
+    place-items: center;
+    font-size: 22px;
+}
+
+.sidebar-heading {
+    color: #8391ae;
+    font-size: 10px;
+    font-weight: bold;
+    letter-spacing: 1.5px;
+    padding: 0 12px;
+}
+
+.portal-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.portal-nav-item {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    padding: 13px 12px;
+    border-radius: 9px;
+    color: #c4cee3;
+    text-decoration: none;
+    font-size: 13px;
+    transition: 0.2s;
+}
+
+.portal-nav-item span {
+    width: 20px;
+    font-size: 17px;
+    text-align: center;
+}
+
+.portal-nav-item:hover,
+.portal-nav-item.active {
+    background: #3157d5;
+    color: white;
+}
+
+.portal-sidebar-bottom {
+    margin-top: auto;
+    border-top: 1px solid #34415c;
+    padding-top: 16px;
+}
+
+/* MAIN CONTENT */
+
+.portal-main {
+    min-width: 0;
+    background: #f3f6fc;
+}
+
+.portal-topbar {
+    min-height: 76px;
+    background: white;
+    border-bottom: 1px solid #e8edf5;
+    padding: 0 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+.topbar-label {
+    font-size: 10px;
+    color: #8995a8;
+    letter-spacing: 1px;
+    margin-bottom: 5px;
+}
+
+.portal-topbar h2 {
+    margin: 0;
+    font-size: 19px;
+    color: #17233f;
+}
+
+.topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+.portal-search {
+    padding: 11px 14px;
+    width: 230px;
+    border: 1px solid #e3e8ef;
+    border-radius: 9px;
+    background: #f8faff;
+}
+
+.faculty-profile {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+}
+
+.faculty-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: #e5ebff;
+    color: #3157d5;
+    font-weight: bold;
+}
+
+.faculty-profile h4 {
+    margin: 0 0 4px;
+    font-size: 13px;
+}
+
+.faculty-profile p {
+    margin: 0;
+    font-size: 10px;
+    color: #8995a8;
+}
+
+/* DASHBOARD CONTENT */
+
+.portal-content {
+    max-width: 1500px;
+    margin: auto;
+    padding: 30px 32px;
+}
+
+.dashboard-welcome {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.dashboard-welcome h1 {
+    margin: 0 0 8px;
+    font-size: 25px;
+    color: #17233f;
+}
+
+.dashboard-welcome p {
+    margin: 0;
+    color: #8995a8;
+    font-size: 13px;
+}
+
+.date-label {
+    padding: 11px 15px;
+    background: white;
+    border: 1px solid #e5eaf2;
+    border-radius: 9px;
+    color: #66738a;
+    font-size: 12px;
+}
+
+/* STATISTICS CARDS */
+
+.portal-stats {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 17px;
+    margin-bottom: 22px;
+}
+
+.portal-stat-card {
+    background: white;
+    border: 1px solid #e9edf5;
+    border-radius: 13px;
+    padding: 21px;
+    box-shadow: 0 4px 15px rgba(23, 35, 63, 0.04);
+}
+
+.portal-stat-card p {
+    color: #8490a5;
+    font-size: 12px;
+    margin: 13px 0 8px;
+}
+
+.portal-stat-card h2 {
+    font-size: 28px;
+    color: #17233f;
+    margin: 0 0 8px;
+}
+
+.portal-stat-card > span {
+    font-size: 10px;
+    color: #8995a8;
+}
+
+.stat-icon {
+    width: 39px;
+    height: 39px;
+    border-radius: 11px;
+    display: grid;
+    place-items: center;
+    font-size: 19px;
+}
+
+.blue-icon {
+    background: #eaf0ff;
+    color: #3157d5;
+}
+
+.green-icon {
+    background: #e7f8f1;
+    color: #16a673;
+}
+
+.orange-icon {
+    background: #fff4df;
+    color: #d99a23;
+}
+
+.purple-icon {
+    background: #f4eaff;
+    color: #9a5bd5;
+}
+
+/* CONTENT PANELS */
+
+.portal-dashboard-grid {
+    display: grid;
+    grid-template-columns: 1.45fr 1fr;
+    gap: 19px;
+    margin-bottom: 19px;
+}
+
+.portal-panel {
+    background: white;
+    border: 1px solid #e9edf5;
+    border-radius: 14px;
+    padding: 21px;
+    min-width: 0;
+    box-shadow: 0 4px 15px rgba(23, 35, 63, 0.03);
+}
+
+.portal-panel-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.portal-panel-heading h3 {
+    font-size: 14px;
+    color: #17233f;
+    margin: 0;
+}
+
+.portal-panel-heading a {
+    color: #3157d5;
+    text-decoration: none;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+/* STUDENT TABLE */
+
+.portal-table-wrapper {
+    overflow-x: auto;
+}
+
+.portal-panel table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    white-space: nowrap;
+}
+
+.portal-panel th {
+    padding: 12px 9px;
+    border-bottom: 1px solid #edf0f6;
+    color: #8995a8;
+    font-size: 10px;
+    text-transform: uppercase;
+}
+
+.portal-panel td {
+    padding: 15px 9px;
+    border-bottom: 1px solid #f0f3f8;
+    color: #526078;
+    font-size: 11px;
+}
+
+.portal-status {
+    padding: 6px 9px;
+    border-radius: 6px;
+    font-size: 10px;
+    font-weight: bold;
+}
+
+.completed {
+    background: #e8f8f1;
+    color: #15976b;
+}
+
+.pending {
+    background: #fff4df;
+    color: #b98218;
+}
+
+/* TODAY'S CLASSES */
+
+.portal-class-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.portal-class {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    border: 1px solid #edf0f6;
+    border-radius: 10px;
+    padding: 13px 10px;
+}
+
+.class-indicator {
+    width: 4px;
+    height: 43px;
+    border-radius: 5px;
+    background: #3157d5;
+}
+
+.green-indicator {
+    background: #16a673;
+}
+
+.orange-indicator {
+    background: #d99a23;
+}
+
+.portal-class h4 {
+    font-size: 11px;
+    margin: 0 0 6px;
+    color: #34415b;
+}
+
+.portal-class p {
+    color: #8995a8;
+    font-size: 10px;
+    margin: 0;
+}
+
+.portal-class strong {
+    margin-left: auto;
+    white-space: nowrap;
+    font-size: 10px;
+    color: #526078;
+}
+
+/* ATTENDANCE */
+
+.attendance-content {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.attendance-circle {
+    width: 125px;
+    height: 125px;
+    border-radius: 50%;
+    background: conic-gradient(
+        #3157d5 0% 82.4%,
+        #e9eefb 82.4% 100%
+    );
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+}
+
+.attendance-circle > div {
+    width: 95px;
+    height: 95px;
+    border-radius: 50%;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.attendance-circle strong {
+    font-size: 20px;
+    color: #17233f;
+}
+
+.attendance-circle span {
+    margin-top: 5px;
+    font-size: 10px;
+    color: #8995a8;
+}
+
+.attendance-details {
+    flex: 1;
+    min-width: 150px;
+}
+
+.attendance-details p {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    color: #65728a;
+    margin-bottom: 16px;
+}
+
+.attendance-details strong {
+    margin-left: auto;
+    color: #34415b;
+}
+
+.legend-blue,
+.legend-grey,
+.legend-red {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: #3157d5;
+}
+
+.legend-grey {
+    background: #e9eefb;
+}
+
+.legend-red {
+    background: #d4515a;
+}
+
+/* ANNOUNCEMENTS */
+
+.portal-notice {
+    display: flex;
+    gap: 12px;
+    padding: 13px 0;
+    border-bottom: 1px solid #edf0f6;
+}
+
+.portal-notice:last-child {
+    border-bottom: none;
+}
+
+.notice-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: #fff4df;
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+}
+
+.portal-notice h4 {
+    font-size: 11px;
+    color: #34415b;
+    margin: 2px 0 6px;
+}
+
+.portal-notice p {
+    font-size: 10px;
+    line-height: 1.5;
+    color: #8995a8;
+    margin: 0;
+}
+
+/* FOOTER */
+
+.portal-footer {
+    padding: 20px 0 5px;
+    text-align: center;
+    font-size: 11px;
+    color: #8995a8;
+}
+
+/* MOBILE RESPONSIVE */
+
+@media (max-width: 1100px) {
+    .portal-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .portal-dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 760px) {
+    .portal-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .portal-sidebar {
+        min-height: auto;
+    }
+
+    .portal-nav {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .portal-sidebar-bottom {
+        margin-top: 15px;
+    }
+
+    .portal-topbar {
+        padding: 18px;
+        flex-wrap: wrap;
+    }
+
+    .topbar-right {
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+    .portal-search {
+        width: 100%;
+    }
+
+    .portal-content {
+        padding: 20px 15px;
+    }
+
+    .dashboard-welcome {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .portal-stats {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* =====================================
+   STUDENT MANAGEMENT MODULE
+===================================== */
+
+.students-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 22px;
+}
+
+.students-heading h1 {
+    color: #17233f;
+    font-size: 26px;
+    margin: 0 0 8px;
+}
+
+.students-heading p {
+    color: #8995a8;
+    font-size: 13px;
+    margin: 0;
+}
+
+.student-count {
+    padding: 11px 15px;
+    background: white;
+    border: 1px solid #e5eaf2;
+    border-radius: 9px;
+    color: #3157d5;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.student-panel {
+    background: white;
+    border: 1px solid #e9edf5;
+    border-radius: 14px;
+    padding: 24px;
+    margin-bottom: 22px;
+    box-shadow: 0 4px 15px rgba(23, 35, 63, 0.03);
+}
+
+.student-panel-heading {
+    margin-bottom: 22px;
+}
+
+.student-panel-heading h3 {
+    margin: 0 0 7px;
+    color: #17233f;
+    font-size: 17px;
+}
+
+.student-panel-heading p {
+    margin: 0;
+    color: #8995a8;
+    font-size: 12px;
+}
+
+.student-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+    margin-bottom: 20px;
+}
+
+.student-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.student-field label {
+    color: #34415b;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.student-field input,
+.student-field select {
+    width: 100%;
+    padding: 12px 13px;
+    border: 1px solid #dce3ef;
+    border-radius: 8px;
+    background: white;
+    color: #34415b;
+    font-size: 13px;
+    outline: none;
+}
+
+.student-field input:focus,
+.student-field select:focus {
+    border-color: #3157d5;
+    box-shadow: 0 0 0 3px rgba(49, 87, 213, 0.10);
+}
+
+.student-primary-btn {
+    border: none;
+    background: #3157d5;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.student-primary-btn:hover {
+    background: #2547bd;
+}
+
+.student-search-form {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.student-search-form input {
+    width: 100%;
+    max-width: 400px;
+    padding: 12px;
+    border: 1px solid #dce3ef;
+    border-radius: 8px;
+    font-size: 13px;
+    outline: none;
+}
+
+.student-search-form button {
+    padding: 12px 20px;
+    background: #3157d5;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.student-search-form a {
+    color: #3157d5;
+    text-decoration: none;
+    font-size: 12px;
+}
+
+.student-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.student-data-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    white-space: nowrap;
+}
+
+.student-data-table th {
+    padding: 15px 12px;
+    color: #8995a8;
+    font-size: 10px;
+    text-transform: uppercase;
+    border-bottom: 1px solid #edf0f6;
+}
+
+.student-data-table td {
+    padding: 16px 12px;
+    color: #526078;
+    font-size: 12px;
+    border-bottom: 1px solid #f0f3f8;
+}
+
+.student-data-table td strong {
+    color: #34415b;
+}
+
+.student-data-table tr:hover {
+    background: #f9faff;
+}
+
+.student-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.student-edit-btn,
+.student-delete-btn {
+    display: inline-block;
+    padding: 7px 11px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: bold;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+}
+
+.student-edit-btn {
+    background: #eaf0ff;
+    color: #3157d5;
+}
+
+.student-delete-btn {
+    background: #fff0f0;
+    color: #d4515a;
+}
+
+.student-empty {
+    text-align: center;
+    padding: 35px !important;
+    color: #8995a8 !important;
+}
+
+.student-message {
+    padding: 13px 16px;
+    border-radius: 8px;
+    margin-bottom: 18px;
+    font-size: 13px;
+}
+
+.student-message.success {
+    color: #137b5a;
+    background: #e8f8f1;
+    border: 1px solid #c6eedc;
+}
+
+.student-message.error {
+    color: #bc3c46;
+    background: #fff0f0;
+    border: 1px solid #ffd6d6;
+}
+
+.student-edit-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.student-cancel-btn {
+    display: inline-block;
+    padding: 12px 20px;
+    border: 1px solid #dce3ef;
+    border-radius: 8px;
+    color: #526078;
+    text-decoration: none;
+    font-size: 13px;
+}
+
+@media (max-width: 700px) {
+    .student-form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .students-heading {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .student-search-form {
+        flex-wrap: wrap;
+    }
+
+    .student-panel {
+        padding: 16px;
+    }
+}
+
+/* =====================================
+   ATTENDANCE MANAGEMENT MODULE
+===================================== */
+
+.attendance-filter {
+    display: grid;
+    grid-template-columns: 1fr 1fr auto;
+    align-items: end;
+    gap: 18px;
+}
+
+.attendance-filter .student-primary-btn {
+    min-height: 42px;
+    white-space: nowrap;
+}
+
+.attendance-stat-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+    margin-bottom: 22px;
+}
+
+.attendance-stat-card {
+    background: white;
+    border: 1px solid #e9edf5;
+    border-radius: 13px;
+    padding: 20px;
+    box-shadow: 0 4px 15px rgba(23, 35, 63, 0.04);
+}
+
+.attendance-stat-icon {
+    display: grid;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    font-size: 18px;
+}
+
+.attendance-stat-card p {
+    font-size: 12px;
+    color: #8490a5;
+    margin: 12px 0 7px;
+}
+
+.attendance-stat-card h2 {
+    font-size: 27px;
+    color: #17233f;
+    margin: 0;
+}
+
+.red-icon {
+    background: #fff0f0;
+    color: #d4515a;
+}
+
+.attendance-choice {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    flex-wrap: wrap;
+}
+
+.attendance-option {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.attendance-option input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.attendance-option span {
+    display: inline-block;
+    padding: 8px 12px;
+    border: 1px solid #e3e8f0;
+    border-radius: 7px;
+    color: #69768b;
+    background: #fff;
+    font-size: 11px;
+    font-weight: bold;
+    transition: 0.2s;
+}
+
+.present-option input:checked + span {
+    color: #13845d;
+    background: #e8f8f1;
+    border-color: #b9e8d2;
+}
+
+.absent-option input:checked + span {
+    color: #c3424d;
+    background: #fff0f0;
+    border-color: #ffd0d0;
+}
+
+.attendance-option span:hover {
+    border-color: #3157d5;
+}
+
+.attendance-save-area {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    padding-top: 22px;
+    margin-top: 15px;
+    border-top: 1px solid #edf0f6;
+}
+
+.attendance-save-area p {
+    font-size: 12px;
+    color: #8995a8;
+    line-height: 1.5;
+    margin: 0;
+}
+
+.attendance-empty {
+    text-align: center;
+    padding: 40px 20px;
+}
+
+.attendance-empty > div {
+    font-size: 38px;
+    margin-bottom: 12px;
+}
+
+.attendance-empty h3 {
+    color: #17233f;
+    font-size: 19px;
+    margin-bottom: 10px;
+}
+
+.attendance-empty p {
+    color: #8995a8;
+    font-size: 13px;
+    line-height: 1.6;
+    margin-bottom: 22px;
+}
+
+@media (max-width: 850px) {
+
+    .attendance-filter {
+        grid-template-columns: 1fr;
+    }
+
+    .attendance-stat-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 500px) {
+
+    .attendance-stat-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .attendance-save-area {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .attendance-choice {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+/* =====================================
+   TIMETABLE MANAGEMENT MODULE
+===================================== */
+
+.student-search-form select {
+    min-width: 190px;
+    padding: 11px 13px;
+    background: white;
+    border: 1px solid #dce3ef;
+    border-radius: 8px;
+    color: #34415b;
+    font-size: 12px;
+    outline: none;
+}
+
+.student-search-form select:focus {
+    border-color: #3157d5;
+}
+
+.student-search-form input:focus {
+    border-color: #3157d5;
+}
+
+.student-data-table td {
+    vertical-align: middle;
+}
+
+.student-data-table td strong {
+    color: #3157d5;
+}
+
+@media (max-width: 700px) {
+    .student-search-form select {
+        width: 100%;
+    }
+
+    .student-search-form button {
+        width: 100%;
+    }
+}
+
+/* =====================================
+   ANNOUNCEMENTS MANAGEMENT MODULE
+===================================== */
+
+.announcement-message-field {
+    grid-column: 1 / -1;
+}
+
+.announcement-message-field textarea {
+    width: 100%;
+    min-height: 120px;
+    resize: vertical;
+    padding: 13px;
+    border: 1px solid #dce3ef;
+    border-radius: 9px;
+    background: white;
+    color: #34415b;
+    font-size: 13px;
+    line-height: 1.6;
+    outline: none;
+}
+
+.announcement-message-field textarea:focus {
+    border-color: #3157d5;
+    box-shadow: 0 0 0 3px rgba(49, 87, 213, 0.10);
+}
+
+.announcement-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.announcement-card {
+    border: 1px solid #e9edf5;
+    border-radius: 12px;
+    padding: 20px;
+    background: #ffffff;
+    transition: box-shadow 0.2s;
+}
+
+.announcement-card:hover {
+    box-shadow: 0 6px 18px rgba(23, 35, 63, 0.06);
+}
+
+.announcement-card-top {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+}
+
+.announcement-icon {
+    width: 42px;
+    height: 42px;
+    display: grid;
+    place-items: center;
+    background: #eaf0ff;
+    border-radius: 11px;
+    font-size: 20px;
+    flex-shrink: 0;
+}
+
+.announcement-heading {
+    flex: 1;
+    min-width: 0;
+}
+
+.announcement-heading h3 {
+    margin: 0 0 8px;
+    color: #17233f;
+    font-size: 15px;
+}
+
+.announcement-audience {
+    display: inline-block;
+    padding: 5px 9px;
+    background: #eaf0ff;
+    color: #3157d5;
+    font-size: 10px;
+    font-weight: bold;
+    border-radius: 6px;
+}
+
+.announcement-description {
+    color: #65728a;
+    font-size: 13px;
+    line-height: 1.7;
+    margin: 18px 0;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+.announcement-footer {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding-top: 13px;
+    border-top: 1px solid #edf0f6;
+    color: #8995a8;
+    font-size: 10px;
+}
+
+@media (max-width: 600px) {
+    .announcement-card {
+        padding: 15px;
+    }
+
+    .announcement-card-top {
+        flex-wrap: wrap;
+    }
+
+    .announcement-card-top form {
+        margin-left: auto;
+    }
+
+    .announcement-message-field {
+        grid-column: auto;
+    }
+}
+
+/* CLICKABLE FACULTY PROFILE */
+
+.profile-link {
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+    padding: 8px 12px;
+    border-radius: 10px;
+    transition: background 0.2s;
+}
+
+.profile-link:hover {
+    background: #f0f4ff;
+}
+
+.profile-link h4 {
+    color: #17233f;
+}
+
+.profile-link p {
+    color: #8995a8;
+}
+
+/* =====================================
+   FACULTY PROFILE LAYOUT FIX
+===================================== */
+
+body.portal-body {
+    margin: 0 !important;
+    padding: 0;
+    background: #f3f6fc;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.portal-layout {
+    display: grid !important;
+    grid-template-columns: 245px minmax(0, 1fr) !important;
+    width: 100%;
+    min-height: 100vh;
+    align-items: stretch;
+}
+
+/* LEFT SIDEBAR */
+
+.portal-sidebar {
+    display: flex !important;
+    flex-direction: column;
+    background: #17233f !important;
+    color: white !important;
+    width: 245px;
+    min-height: 100vh;
+    padding: 25px 16px;
+    box-sizing: border-box;
+}
+
+.portal-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 5px 10px 35px;
+    color: white;
+    font-size: 21px;
+    font-weight: bold;
+}
+
+.sidebar-heading {
+    color: #8391ae;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    padding: 0 12px;
+    margin-bottom: 12px;
+}
+
+.portal-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.portal-nav-item {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    padding: 13px 12px;
+    border-radius: 9px;
+    color: #c4cee3;
+    text-decoration: none;
+    font-size: 13px;
+}
+
+.portal-nav-item:hover,
+.portal-nav-item.active {
+    background: #3157d5;
+    color: white;
+}
+
+.portal-sidebar-bottom {
+    margin-top: auto;
+    border-top: 1px solid #34415c;
+    padding-top: 16px;
+}
+
+/* MAIN AREA */
+
+.portal-main {
+    display: block !important;
+    min-width: 0;
+    width: 100%;
+    background: #f3f6fc;
+}
+
+/* TOP NAVIGATION */
+
+.portal-topbar {
+    display: flex !important;
+    min-height: 76px;
+    background: white;
+    border-bottom: 1px solid #e8edf5;
+    padding: 0 32px;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    box-sizing: border-box;
+}
+
+.portal-topbar h2 {
+    margin: 0;
+    color: #17233f;
+    font-size: 19px;
+}
+
+.topbar-label {
+    font-size: 10px;
+    color: #8995a8;
+    margin-bottom: 5px;
+}
+
+.faculty-profile {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+}
+
+.faculty-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: #e5ebff;
+    color: #3157d5;
+    font-weight: bold;
+}
+
+/* PROFILE CONTENT */
+
+.portal-content {
+    width: 100%;
+    max-width: 1500px;
+    margin: 0 auto;
+    padding: 30px 32px;
+    box-sizing: border-box;
+}
+
+.profile-banner {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 22px;
+    margin-bottom: 28px;
+    background: #f4f7ff;
+    border: 1px solid #e5eaff;
+    border-radius: 12px;
+}
+
+.profile-large-avatar {
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+    background: #3157d5;
+    color: white;
+    display: grid;
+    place-items: center;
+    font-size: 30px;
+    font-weight: bold;
+    flex-shrink: 0;
+}
+
+.profile-banner h2 {
+    margin: 0 0 7px;
+    color: #17233f;
+}
+
+.profile-banner p {
+    margin: 0 0 7px;
+    color: #65728a;
+}
+
+.profile-banner span {
+    color: #3157d5;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 760px) {
+    .portal-layout {
+        grid-template-columns: 1fr !important;
+    }
+
+    .portal-sidebar {
+        width: 100%;
+        min-height: auto;
+    }
+
+    .portal-nav {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .portal-topbar {
+        padding: 18px;
+        flex-wrap: wrap;
+    }
+
+    .portal-content {
+        padding: 20px 15px;
+    }
+}
+
+/* PRO SCHOOL - Modern Professional Font */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+body,
+button,
+input,
+select,
+textarea {
+    font-family: 'Inter', sans-serif !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Inter', sans-serif !important;
+    font-weight: 700;
+}
+
+.portal-sidebar a {
+    font-family: 'Inter', sans-serif !important;
+    font-weight: 500;
+}
+
+.portal-topbar {
+    font-family: 'Inter', sans-serif !important;
+}

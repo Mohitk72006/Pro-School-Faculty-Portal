@@ -1,0 +1,1016 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Pro School | Faculty Dashboard</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}?v=20">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body.portal-body {
+            margin: 0;
+            background: #f4f7fc;
+            font-family: 'Inter', Arial, sans-serif;
+            color: #1d2b45;
+        }
+
+        .ps-layout {
+            display: grid;
+            grid-template-columns: 250px minmax(0, 1fr);
+            min-height: 100vh;
+        }
+
+        /* LEFT SIDEBAR */
+
+        .ps-sidebar {
+            background: #ffffff;
+            border-right: 1px solid #e8edf5;
+            padding: 25px 16px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .ps-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0 12px 30px;
+        }
+
+        .ps-logo {
+            width: 44px;
+            height: 44px;
+            border-radius: 13px;
+            background: linear-gradient(135deg, #4269f5, #2747cb);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 23px;
+            font-weight: 800;
+            box-shadow: 0 5px 14px #4269f530;
+        }
+
+        .ps-brand-name {
+            font-size: 19px;
+            font-weight: 800;
+            color: #1c2d50;
+        }
+
+        .ps-brand-name small {
+            display: block;
+            font-size: 10px;
+            color: #8b97ad;
+            letter-spacing: 1.2px;
+            margin-top: 4px;
+        }
+
+        .ps-sidebar-label {
+            font-size: 10px;
+            font-weight: 700;
+            color: #9ba7bb;
+            letter-spacing: 1.4px;
+            padding: 0 13px;
+            margin-bottom: 13px;
+        }
+
+        .ps-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .ps-nav-item {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            padding: 13px 14px;
+            border-radius: 10px;
+            text-decoration: none;
+            color: #687790;
+            font-size: 13px;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        .ps-nav-item:hover {
+            background: #f0f4ff;
+            color: #3658dd;
+        }
+
+        .ps-nav-item.active {
+            background: #eaf0ff;
+            color: #3658dd;
+        }
+
+        .ps-nav-icon {
+            width: 22px;
+            text-align: center;
+            font-size: 17px;
+        }
+
+        .ps-sidebar-bottom {
+            margin-top: auto;
+            padding-top: 30px;
+        }
+
+        /* MAIN CONTENT */
+
+        .ps-main {
+            min-width: 0;
+        }
+
+        .ps-topbar {
+            height: 85px;
+            padding: 0 35px;
+            background: #ffffff;
+            border-bottom: 1px solid #e8edf5;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .ps-page-title {
+            font-size: 21px;
+            font-weight: 800;
+            margin: 0;
+            color: #1c2d50;
+        }
+
+        .ps-page-subtitle {
+            font-size: 12px;
+            color: #8b97ad;
+            margin-top: 6px;
+        }
+
+        .ps-profile-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: #1c2d50;
+            background: #f8faff;
+            padding: 9px 14px;
+            border: 1px solid #edf1f7;
+            border-radius: 12px;
+        }
+
+        .ps-profile-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #5377ff, #3853d8);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .ps-profile-name {
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .ps-profile-email {
+            font-size: 10px;
+            color: #8b97ad;
+            margin-top: 4px;
+        }
+
+        .ps-content {
+            padding: 30px 35px;
+        }
+
+        /* WELCOME BANNER */
+
+        .ps-welcome {
+            background: linear-gradient(120deg, #4168f4 0%, #3153d9 55%, #263fbb 100%);
+            border-radius: 18px;
+            padding: 30px 34px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 27px;
+            box-shadow: 0 10px 25px #3153d925;
+        }
+
+        .ps-welcome h1 {
+            font-size: 25px;
+            font-weight: 800;
+            margin: 0 0 10px;
+        }
+
+        .ps-welcome p {
+            color: #e0e8ff;
+            font-size: 13px;
+            margin: 0;
+        }
+
+        .ps-welcome-badge {
+            background: #ffffff22;
+            border: 1px solid #ffffff35;
+            border-radius: 12px;
+            padding: 13px 18px;
+            font-size: 12px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        /* STATISTICS CARDS */
+
+        .ps-stats {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 18px;
+            margin-bottom: 27px;
+        }
+
+        .ps-stat-card {
+            background: white;
+            border: 1px solid #e9edf5;
+            border-radius: 15px;
+            padding: 21px;
+            box-shadow: 0 3px 12px #1d2b4505;
+        }
+
+        .ps-stat-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .ps-stat-icon {
+            width: 43px;
+            height: 43px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .ps-blue {
+            background: #eaf0ff;
+            color: #4266ec;
+        }
+
+        .ps-green {
+            background: #e6f8ef;
+            color: #20a56b;
+        }
+
+        .ps-orange {
+            background: #fff2df;
+            color: #e89a35;
+        }
+
+        .ps-purple {
+            background: #f0eaff;
+            color: #875ce5;
+        }
+
+        .ps-stat-label {
+            font-size: 12px;
+            color: #8b97ad;
+            font-weight: 600;
+            margin: 17px 0 8px;
+        }
+
+        .ps-stat-value {
+            font-size: 26px;
+            font-weight: 800;
+            color: #1c2d50;
+            margin: 0;
+        }
+
+        .ps-stat-note {
+            font-size: 10px;
+            color: #9ba7bb;
+            margin-top: 8px;
+        }
+
+        /* DASHBOARD PANELS */
+
+        .ps-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 22px;
+            margin-bottom: 22px;
+        }
+
+        .ps-panel {
+            background: white;
+            border: 1px solid #e9edf5;
+            border-radius: 15px;
+            padding: 24px;
+            min-width: 0;
+            box-shadow: 0 3px 12px #1d2b4505;
+        }
+
+        .ps-panel-heading {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .ps-panel-heading h3 {
+            margin: 0;
+            font-size: 15px;
+            font-weight: 800;
+            color: #1c2d50;
+        }
+
+        .ps-panel-link {
+            text-decoration: none;
+            color: #4266ec;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .ps-list {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .ps-list-item {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            padding: 12px;
+            background: #f8faff;
+            border-radius: 11px;
+        }
+
+        .ps-list-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #4266ec;
+            flex-shrink: 0;
+        }
+
+        .ps-dot-green {
+            background: #20a56b;
+        }
+
+        .ps-dot-orange {
+            background: #e89a35;
+        }
+
+        .ps-list-item h4 {
+            margin: 0;
+            font-size: 12px;
+            font-weight: 700;
+            color: #30415f;
+        }
+
+        .ps-list-item p {
+            margin: 5px 0 0;
+            font-size: 10px;
+            color: #8b97ad;
+        }
+
+        .ps-notice {
+            display: flex;
+            gap: 13px;
+            padding: 14px;
+            border: 1px solid #edf1f7;
+            border-radius: 12px;
+            margin-bottom: 12px;
+        }
+
+        .ps-notice-icon {
+            width: 38px;
+            height: 38px;
+            background: #fff2df;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 17px;
+        }
+
+        .ps-notice h4 {
+            font-size: 12px;
+            color: #30415f;
+            margin: 0;
+        }
+
+        .ps-notice p {
+            font-size: 11px;
+            line-height: 1.6;
+            color: #8b97ad;
+            margin: 6px 0 0;
+        }
+
+        .ps-quick-actions {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 15px;
+        }
+
+        .ps-action {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            text-decoration: none;
+            padding: 20px 10px;
+            background: #f8faff;
+            border: 1px solid #edf1f7;
+            border-radius: 12px;
+            color: #30415f;
+            font-size: 11px;
+            font-weight: 700;
+            text-align: center;
+            transition: 0.2s;
+        }
+
+        .ps-action:hover {
+            background: #eaf0ff;
+            border-color: #d8e2ff;
+            color: #4266ec;
+            transform: translateY(-2px);
+        }
+
+        .ps-action-icon {
+            font-size: 22px;
+            color: #4266ec;
+        }
+
+        .ps-footer {
+            text-align: center;
+            color: #9ba7bb;
+            font-size: 10px;
+            padding: 25px 0 10px;
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 1150px) {
+            .ps-stats {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .ps-quick-actions {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 850px) {
+            .ps-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .ps-sidebar {
+                padding: 15px;
+            }
+
+            .ps-nav {
+                display: grid;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .ps-sidebar-bottom {
+                margin-top: 15px;
+            }
+
+            .ps-topbar {
+                padding: 18px;
+                height: auto;
+            }
+
+            .ps-content {
+                padding: 20px;
+            }
+
+            .ps-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 520px) {
+            .ps-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .ps-welcome {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 25px;
+            }
+
+            .ps-topbar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .ps-profile-link {
+                width: 100%;
+            }
+
+            .ps-quick-actions {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+    </style>
+</head>
+
+<body class="portal-body">
+
+<div class="ps-layout">
+
+    <!-- LEFT SIDEBAR -->
+
+    <aside class="ps-sidebar">
+
+        <div class="ps-brand">
+            <div class="ps-logo">P</div>
+
+            <div class="ps-brand-name">
+                Pro School
+                <small>FACULTY PORTAL</small>
+            </div>
+        </div>
+
+        <p class="ps-sidebar-label">SCHOOL WORKSPACE</p>
+
+        <nav class="ps-nav">
+
+            <a href="{{ url_for('dashboard') }}"
+               class="ps-nav-item active">
+                <span class="ps-nav-icon">▦</span>
+                Dashboard
+            </a>
+
+            <a href="{{ url_for('students') }}"
+               class="ps-nav-item">
+                <span class="ps-nav-icon">♙</span>
+                Students
+            </a>
+
+            <a href="{{ url_for('attendance') }}"
+               class="ps-nav-item">
+                <span class="ps-nav-icon">◷</span>
+                Attendance
+            </a>
+
+            <a href="{{ url_for('marks') }}"
+               class="ps-nav-item">
+                <span class="ps-nav-icon">▤</span>
+                Marks & Results
+            </a>
+
+            <a href="{{ url_for('subjects') }}"
+               class="ps-nav-item">
+                <span class="ps-nav-icon">▣</span>
+                My Subjects
+            </a>
+
+            <a href="{{ url_for('timetable') }}"
+               class="ps-nav-item">
+                <span class="ps-nav-icon">▦</span>
+                Timetable
+            </a>
+
+            <a href="{{ url_for('assignments') }}"
+               class="ps-nav-item">
+                <span class="ps-nav-icon">✎</span>
+                Assignments & Homework
+            </a>
+
+            <a href="{{ url_for('announcements') }}"
+               class="ps-nav-item">
+                <span class="ps-nav-icon">♢</span>
+                Announcements
+            </a>
+
+            <a href="{{ url_for('faculty_profile') }}"
+               class="ps-nav-item">
+                <span class="ps-nav-icon">♙</span>
+                Faculty Profile
+            </a>
+
+        </nav>
+
+        <div class="ps-sidebar-bottom">
+
+            <a href="{{ url_for('logout') }}"
+               class="ps-nav-item">
+                <span class="ps-nav-icon">↪</span>
+                Logout
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+
+    <main class="ps-main">
+
+        <!-- TOP BAR -->
+
+        <header class="ps-topbar">
+
+            <div>
+                <h2 class="ps-page-title">Faculty Dashboard</h2>
+                <p class="ps-page-subtitle">
+                    Welcome to your school workspace
+                </p>
+            </div>
+
+            <a href="{{ url_for('faculty_profile') }}"
+               class="ps-profile-link">
+
+                <div class="ps-profile-avatar">FA</div>
+
+                <div>
+                    <div class="ps-profile-name">Faculty Account</div>
+                    <div class="ps-profile-email">
+                        {{ faculty_email }}
+                    </div>
+                </div>
+
+            </a>
+
+        </header>
+
+
+        <!-- DASHBOARD BODY -->
+
+        <div class="ps-content">
+
+            <!-- WELCOME BANNER -->
+
+            <section class="ps-welcome">
+
+                <div>
+                    <h1>Welcome Back, Faculty! 👋</h1>
+
+                    <p>
+                        Manage your students, academics and school activities
+                        from one place.
+                    </p>
+                </div>
+
+                <div class="ps-welcome-badge">
+                    Academic Year 2026–27
+                </div>
+
+            </section>
+
+
+            <!-- STATISTICS -->
+
+            <section class="ps-stats">
+
+                <div class="ps-stat-card">
+
+                    <div class="ps-stat-top">
+                        <span class="ps-stat-icon ps-blue">♙</span>
+                    </div>
+
+                    <p class="ps-stat-label">Total Students</p>
+
+                    <h2 class="ps-stat-value">{{ total_students }}</h2>
+
+                    <p class="ps-stat-note">
+                        Registered student records
+                    </p>
+
+                </div>
+
+
+                <div class="ps-stat-card">
+
+                    <div class="ps-stat-top">
+                        <span class="ps-stat-icon ps-green">▣</span>
+                    </div>
+
+                    <p class="ps-stat-label">Standards Represented</p>
+
+                    <h2 class="ps-stat-value">{{ total_classes }}</h2>
+
+                    <p class="ps-stat-note">
+                        Standards with student records
+                    </p>
+
+                </div>
+
+
+                <div class="ps-stat-card">
+
+                    <div class="ps-stat-top">
+                        <span class="ps-stat-icon ps-orange">◷</span>
+                    </div>
+
+                    <p class="ps-stat-label">Attendance Management</p>
+
+                    <h2 class="ps-stat-value">Track</h2>
+
+                    <p class="ps-stat-note">
+                        Open attendance records
+                    </p>
+
+                </div>
+
+
+                <div class="ps-stat-card">
+
+                    <div class="ps-stat-top">
+                        <span class="ps-stat-icon ps-purple">▤</span>
+                    </div>
+
+                    <p class="ps-stat-label">Marks & Results</p>
+
+                    <h2 class="ps-stat-value">Manage</h2>
+
+                    <p class="ps-stat-note">
+                        Enter and view academic marks
+                    </p>
+
+                </div>
+
+            </section>
+
+
+            <!-- STANDARDS AND SUBJECTS -->
+
+            <section class="ps-grid">
+
+                <div class="ps-panel">
+
+                    <div class="ps-panel-heading">
+                        <h3>School Standards</h3>
+
+                        <a href="{{ url_for('students') }}"
+                           class="ps-panel-link">
+                            Manage Students →
+                        </a>
+                    </div>
+
+                    <div class="ps-list">
+
+                        <div class="ps-list-item">
+                            <span class="ps-list-dot"></span>
+
+                            <div>
+                                <h4>Primary School</h4>
+                                <p>1st Std – 5th Std</p>
+                            </div>
+                        </div>
+
+                        <div class="ps-list-item">
+                            <span class="ps-list-dot ps-dot-green"></span>
+
+                            <div>
+                                <h4>Middle School</h4>
+                                <p>6th Std – 8th Std</p>
+                            </div>
+                        </div>
+
+                        <div class="ps-list-item">
+                            <span class="ps-list-dot ps-dot-orange"></span>
+
+                            <div>
+                                <h4>Secondary School</h4>
+                                <p>9th Std – 10th Std</p>
+                            </div>
+                        </div>
+
+                        <div class="ps-list-item">
+                            <span class="ps-list-dot"></span>
+
+                            <div>
+                                <h4>Higher Secondary</h4>
+                                <p>11th Std – 12th Std</p>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="ps-panel">
+
+                    <div class="ps-panel-heading">
+                        <h3>School Subjects</h3>
+
+                        <a href="{{ url_for('subjects') }}"
+                           class="ps-panel-link">
+                            View Subjects →
+                        </a>
+                    </div>
+
+                    <div class="ps-list">
+
+                        <div class="ps-list-item">
+                            <span class="ps-list-dot"></span>
+
+                            <div>
+                                <h4>English</h4>
+                                <p>Language subject</p>
+                            </div>
+                        </div>
+
+                        <div class="ps-list-item">
+                            <span class="ps-list-dot ps-dot-green"></span>
+
+                            <div>
+                                <h4>Mathematics</h4>
+                                <p>Mathematical studies</p>
+                            </div>
+                        </div>
+
+                        <div class="ps-list-item">
+                            <span class="ps-list-dot ps-dot-orange"></span>
+
+                            <div>
+                                <h4>Science</h4>
+                                <p>Physics, Chemistry and Biology</p>
+                            </div>
+                        </div>
+
+                        <div class="ps-list-item">
+                            <span class="ps-list-dot"></span>
+
+                            <div>
+                                <h4>Social Science</h4>
+                                <p>History, Geography and Civics</p>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- HIGHER SECONDARY AND ANNOUNCEMENTS -->
+
+            <section class="ps-grid">
+
+                <div class="ps-panel">
+
+                    <div class="ps-panel-heading">
+                        <h3>Higher Secondary Groups</h3>
+                    </div>
+
+                    <div class="ps-list">
+
+                        <div class="ps-list-item">
+                            <span class="ps-list-dot"></span>
+
+                            <div>
+                                <h4>Bio-Maths</h4>
+                                <p>11th and 12th Standard</p>
+                            </div>
+                        </div>
+
+                        <div class="ps-list-item">
+                            <span class="ps-list-dot ps-dot-green"></span>
+
+                            <div>
+                                <h4>Computer Science</h4>
+                                <p>11th and 12th Standard</p>
+                            </div>
+                        </div>
+
+                        <div class="ps-list-item">
+                            <span class="ps-list-dot ps-dot-orange"></span>
+
+                            <div>
+                                <h4>Arts</h4>
+                                <p>11th and 12th Standard</p>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="ps-panel">
+
+                    <div class="ps-panel-heading">
+                        <h3>School Announcements</h3>
+
+                        <a href="{{ url_for('announcements') }}"
+                           class="ps-panel-link">
+                            View Notices →
+                        </a>
+                    </div>
+
+                    <div class="ps-notice">
+
+                        <div class="ps-notice-icon">📌</div>
+
+                        <div>
+                            <h4>Examination Preparation</h4>
+
+                            <p>
+                                Teachers should update examination schedules.
+                            </p>
+                        </div>
+
+                    </div>
+
+                    <div class="ps-notice">
+
+                        <div class="ps-notice-icon">📚</div>
+
+                        <div>
+                            <h4>Parent Meeting</h4>
+
+                            <p>
+                                Parent-teacher meeting schedule to be announced.
+                            </p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- QUICK ACTIONS -->
+
+            <section class="ps-panel">
+
+                <div class="ps-panel-heading">
+                    <h3>Quick Actions</h3>
+                </div>
+
+                <div class="ps-quick-actions">
+
+                    <a href="{{ url_for('students') }}"
+                       class="ps-action">
+                        <span class="ps-action-icon">♙</span>
+                        Manage Students
+                    </a>
+
+                    <a href="{{ url_for('attendance') }}"
+                       class="ps-action">
+                        <span class="ps-action-icon">◷</span>
+                        Mark Attendance
+                    </a>
+
+                    <a href="{{ url_for('marks') }}"
+                       class="ps-action">
+                        <span class="ps-action-icon">▤</span>
+                        Enter Marks
+                    </a>
+
+                    <a href="{{ url_for('assignments') }}"
+                       class="ps-action">
+                        <span class="ps-action-icon">✎</span>
+                        Assign Homework
+                    </a>
+
+                </div>
+
+            </section>
+
+
+            <!-- FOOTER -->
+
+            <footer class="ps-footer">
+                © 2026 Pro School Faculty Portal. All rights reserved.
+            </footer>
+
+        </div>
+
+    </main>
+
+</div>
+
+</body>
+</html>

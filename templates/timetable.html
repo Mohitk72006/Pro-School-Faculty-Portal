@@ -1,0 +1,397 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ProSchool | Timetable Management</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}?v=12">
+</head>
+
+<body class="portal-body">
+
+<div class="portal-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="portal-sidebar">
+
+        <div class="portal-brand">
+            <div class="portal-logo">E</div>
+            <span>ProSchool</span>
+        </div>
+
+        <p class="sidebar-heading">SCHOOL WORKSPACE</p>
+
+        <nav class="portal-nav">
+
+            <a href="{{ url_for('dashboard') }}"
+               class="portal-nav-item">
+                <span>▦</span> Dashboard
+            </a>
+
+            <a href="{{ url_for('students') }}"
+               class="portal-nav-item">
+                <span>♙</span> Students
+            </a>
+
+            <a href="{{ url_for('attendance') }}"
+               class="portal-nav-item">
+                <span>◷</span> Attendance
+            </a>
+
+            <a href="{{ url_for('marks') }}"
+               class="portal-nav-item">
+                <span>▤</span> Marks & Results
+            </a>
+
+            <a href="{{ url_for('subjects') }}"
+               class="portal-nav-item">
+                <span>▣</span> Subjects
+            </a>
+
+            <a href="{{ url_for('timetable') }}"
+               class="portal-nav-item active">
+                <span>▦</span> Timetable
+            </a>
+
+            <a href="{{ url_for('dashboard') }}"
+               class="portal-nav-item">
+                <span>♢</span> Announcements
+            </a>
+
+        </nav>
+
+        <div class="portal-sidebar-bottom">
+
+            <a href="{{ url_for('logout') }}"
+               class="portal-nav-item">
+                <span>↪</span> Logout
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+    <main class="portal-main">
+
+        <header class="portal-topbar">
+
+            <div>
+                <p class="topbar-label">SCHOOL FACULTY WORKSPACE</p>
+                <h2>Timetable Management</h2>
+            </div>
+
+            <div class="faculty-profile">
+
+                <div class="faculty-avatar">FA</div>
+
+                <div>
+                    <h4>Faculty Account</h4>
+                    <p>School Faculty</p>
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <div class="portal-content">
+
+            <!-- PAGE HEADING -->
+            <div class="students-heading">
+
+                <div>
+                    <h1>Weekly Timetable</h1>
+                    <p>Create and manage your weekly teaching schedule.</p>
+                </div>
+
+                <div class="student-count">
+                    Monday – Saturday
+                </div>
+
+            </div>
+
+
+            <!-- FLASH MESSAGES -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+
+                {% for category, message in messages %}
+
+                    <div class="student-message {{ category }}">
+                        {{ message }}
+                    </div>
+
+                {% endfor %}
+
+            {% endwith %}
+
+
+            <!-- ADD TIMETABLE ENTRY -->
+            <section class="student-panel">
+
+                <div class="student-panel-heading">
+                    <h3>Add Class Schedule</h3>
+                    <p>Enter the class, day, period, subject and timing.</p>
+                </div>
+
+
+                <form action="{{ url_for('add_timetable') }}"
+                      method="POST">
+
+                    <div class="student-form-grid">
+
+                        <div class="student-field">
+
+                            <label>School Standard *</label>
+
+                            <select name="class_name" required>
+
+                                <option value="">Select Standard</option>
+
+                                {% for class_name in school_classes %}
+
+                                    <option value="{{ class_name }}">
+                                        {{ class_name }}
+                                    </option>
+
+                                {% endfor %}
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="student-field">
+
+                            <label>Weekday *</label>
+
+                            <select name="day_of_week" required>
+
+                                <option value="">Select Day</option>
+
+                                {% for day in week_days %}
+
+                                    <option value="{{ day }}">
+                                        {{ day }}
+                                    </option>
+
+                                {% endfor %}
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="student-field">
+
+                            <label>Period Number *</label>
+
+                            <input type="number"
+                                   name="period_number"
+                                   min="1"
+                                   max="8"
+                                   placeholder="Example: 1"
+                                   required>
+
+                        </div>
+
+
+                        <div class="student-field">
+
+                            <label>Subject *</label>
+
+                            <select name="subject_name" required>
+
+                                <option value="">Select Subject</option>
+
+                                {% for subject in school_subjects %}
+
+                                    <option value="{{ subject }}">
+                                        {{ subject }}
+                                    </option>
+
+                                {% endfor %}
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="student-field">
+
+                            <label>Start Time *</label>
+
+                            <input type="time"
+                                   name="start_time"
+                                   required>
+
+                        </div>
+
+
+                        <div class="student-field">
+
+                            <label>End Time *</label>
+
+                            <input type="time"
+                                   name="end_time"
+                                   required>
+
+                        </div>
+
+
+                        <div class="student-field">
+
+                            <label>Classroom / Room</label>
+
+                            <input type="text"
+                                   name="room"
+                                   placeholder="Example: Room 101">
+
+                        </div>
+
+                    </div>
+
+
+                    <button type="submit"
+                            class="student-primary-btn">
+                        + Add to Timetable
+                    </button>
+
+                </form>
+
+            </section>
+
+
+            <!-- FILTER -->
+            <section class="student-panel">
+
+                <div class="student-panel-heading">
+                    <h3>Weekly Class Schedule</h3>
+                    <p>View the saved schedule for each standard.</p>
+                </div>
+
+                <form method="GET"
+                      action="{{ url_for('timetable') }}"
+                      class="student-search-form">
+
+                    <select name="class_name">
+
+                        <option value="all"
+                            {% if selected_class == 'all' %}selected{% endif %}>
+                            All Standards
+                        </option>
+
+                        {% for class_name in school_classes %}
+
+                            <option value="{{ class_name }}"
+                                {% if selected_class == class_name %}selected{% endif %}>
+                                {{ class_name }}
+                            </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                    <button type="submit">Filter</button>
+
+                </form>
+
+
+                <!-- TIMETABLE TABLE -->
+                <div class="student-table-wrapper">
+
+                    <table class="student-data-table">
+
+                        <thead>
+
+                            <tr>
+                                <th>Day</th>
+                                <th>Standard</th>
+                                <th>Period</th>
+                                <th>Time</th>
+                                <th>Subject</th>
+                                <th>Room</th>
+                                <th>Action</th>
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                            {% for entry in timetable %}
+
+                                <tr>
+
+                                    <td>
+                                        <strong>{{ entry.day_of_week }}</strong>
+                                    </td>
+
+                                    <td>{{ entry.class_name }}</td>
+
+                                    <td>Period {{ entry.period_number }}</td>
+
+                                    <td>
+                                        {{ entry.start_time }} – {{ entry.end_time }}
+                                    </td>
+
+                                    <td>{{ entry.subject_name }}</td>
+
+                                    <td>{{ entry.room or "-" }}</td>
+
+                                    <td>
+
+                                        <form
+                                            action="{{ url_for('delete_timetable', entry_id=entry.id) }}"
+                                            method="POST"
+                                            onsubmit="return confirm('Delete this timetable entry?');">
+
+                                            <button type="submit"
+                                                    class="student-delete-btn">
+                                                Delete
+                                            </button>
+
+                                        </form>
+
+                                    </td>
+
+                                </tr>
+
+                            {% else %}
+
+                                <tr>
+                                    <td colspan="7" class="student-empty">
+                                        No timetable entries found.
+                                        Add your first class schedule above.
+                                    </td>
+                                </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </section>
+
+
+            <footer class="portal-footer">
+                © 2026 ProSchool School Faculty Portal.
+            </footer>
+
+        </div>
+
+    </main>
+
+</div>
+
+</body>
+</html>

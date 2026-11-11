@@ -1,0 +1,399 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ProSchool | Attendance Management</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}?v=8">
+</head>
+
+<body class="portal-body">
+
+<div class="portal-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="portal-sidebar">
+
+        <div class="portal-brand">
+            <div class="portal-logo">E</div>
+            <span>ProSchool</span>
+        </div>
+
+        <p class="sidebar-heading">SCHOOL WORKSPACE</p>
+
+        <nav class="portal-nav">
+
+            <a href="{{ url_for('dashboard') }}"
+               class="portal-nav-item">
+                <span>▦</span> Dashboard
+            </a>
+
+            <a href="{{ url_for('students') }}"
+               class="portal-nav-item">
+                <span>♙</span> Students
+            </a>
+
+            <a href="{{ url_for('attendance') }}"
+               class="portal-nav-item active">
+                <span>◷</span> Attendance
+            </a>
+
+            <a href="{{ url_for('dashboard') }}"
+               class="portal-nav-item">
+                <span>▤</span> Marks & Results
+            </a>
+
+            <a href="{{ url_for('dashboard') }}"
+               class="portal-nav-item">
+                <span>▣</span> Subjects
+            </a>
+
+            <a href="{{ url_for('dashboard') }}"
+               class="portal-nav-item">
+                <span>▦</span> Timetable
+            </a>
+
+        </nav>
+
+        <div class="portal-sidebar-bottom">
+
+            <a href="{{ url_for('logout') }}"
+               class="portal-nav-item">
+                <span>↪</span> Logout
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+    <main class="portal-main">
+
+        <header class="portal-topbar">
+
+            <div>
+                <p class="topbar-label">SCHOOL FACULTY WORKSPACE</p>
+                <h2>Attendance Management</h2>
+            </div>
+
+            <div class="faculty-profile">
+
+                <div class="faculty-avatar">FA</div>
+
+                <div>
+                    <h4>Faculty Account</h4>
+                    <p>School Faculty</p>
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <div class="portal-content">
+
+            <!-- PAGE HEADING -->
+            <div class="students-heading">
+
+                <div>
+                    <h1>Daily Attendance</h1>
+
+                    <p>
+                        Select a school standard and record student attendance.
+                    </p>
+                </div>
+
+                <div class="student-count">
+                    Academic Year 2026–27
+                </div>
+
+            </div>
+
+
+            <!-- FLASH MESSAGES -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+
+                {% if messages %}
+
+                    {% for category, message in messages %}
+
+                        <div class="student-message {{ category }}">
+                            {{ message }}
+                        </div>
+
+                    {% endfor %}
+
+                {% endif %}
+
+            {% endwith %}
+
+
+            <!-- CLASS AND DATE FILTER -->
+            <section class="student-panel">
+
+                <div class="student-panel-heading">
+
+                    <h3>Select Class and Date</h3>
+
+                    <p>
+                        Choose the standard and date for attendance.
+                    </p>
+
+                </div>
+
+                <form method="GET"
+                      action="{{ url_for('attendance') }}"
+                      class="attendance-filter">
+
+                    <div class="student-field">
+
+                        <label>School Standard</label>
+
+                        <select name="class_name" required>
+
+                            {% for class_name in school_classes %}
+
+                                <option value="{{ class_name }}"
+                                    {% if selected_class == class_name %}
+                                        selected
+                                    {% endif %}>
+
+                                    {{ class_name }}
+
+                                </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="student-field">
+
+                        <label>Attendance Date</label>
+
+                        <input type="date"
+                               name="attendance_date"
+                               value="{{ attendance_date }}"
+                               required>
+
+                    </div>
+
+
+                    <button type="submit"
+                            class="student-primary-btn">
+                        Load Students
+                    </button>
+
+                </form>
+
+            </section>
+
+
+            <!-- ATTENDANCE STATISTICS -->
+            <section class="attendance-stat-grid">
+
+                <div class="attendance-stat-card">
+                    <span class="attendance-stat-icon blue-icon">♙</span>
+                    <p>Total Students</p>
+                    <h2>{{ total_students }}</h2>
+                </div>
+
+                <div class="attendance-stat-card">
+                    <span class="attendance-stat-icon green-icon">✓</span>
+                    <p>Present</p>
+                    <h2>{{ present_count }}</h2>
+                </div>
+
+                <div class="attendance-stat-card">
+                    <span class="attendance-stat-icon red-icon">✕</span>
+                    <p>Absent</p>
+                    <h2>{{ absent_count }}</h2>
+                </div>
+
+                <div class="attendance-stat-card">
+                    <span class="attendance-stat-icon orange-icon">◷</span>
+                    <p>Not Marked</p>
+                    <h2>{{ unmarked_count }}</h2>
+                </div>
+
+            </section>
+
+
+            <!-- ATTENDANCE TABLE -->
+            <section class="student-panel">
+
+                <div class="student-panel-heading">
+
+                    <div>
+                        <h3>Student Attendance Register</h3>
+
+                        <p>
+                            Standard: <strong>{{ selected_class }}</strong>
+                            &nbsp; | &nbsp;
+                            Date: <strong>{{ attendance_date }}</strong>
+                        </p>
+                    </div>
+
+                </div>
+
+
+                {% if students %}
+
+                    <form method="POST"
+                          action="{{ url_for('save_attendance') }}">
+
+                        <input type="hidden"
+                               name="class_name"
+                               value="{{ selected_class }}">
+
+                        <input type="hidden"
+                               name="attendance_date"
+                               value="{{ attendance_date }}">
+
+
+                        <div class="student-table-wrapper">
+
+                            <table class="student-data-table">
+
+                                <thead>
+
+                                    <tr>
+                                        <th>S.No</th>
+                                        <th>Student Name</th>
+                                        <th>Admission Number</th>
+                                        <th>Attendance Status</th>
+                                    </tr>
+
+                                </thead>
+
+                                <tbody>
+
+                                    {% for student in students %}
+
+                                        <tr>
+
+                                            <td>{{ loop.index }}</td>
+
+                                            <td>
+                                                <strong>
+                                                    {{ student.name }}
+                                                </strong>
+                                            </td>
+
+                                            <td>
+                                                {{ student.roll_number }}
+                                            </td>
+
+                                            <td>
+
+                                                <div class="attendance-choice">
+
+                                                    <label class="attendance-option present-option">
+
+                                                        <input
+                                                            type="radio"
+                                                            name="status_{{ student.id }}"
+                                                            value="Present"
+                                                            {% if student.status == 'Present' %}
+                                                                checked
+                                                            {% endif %}
+                                                            required
+                                                        >
+
+                                                        <span>✓ Present</span>
+
+                                                    </label>
+
+
+                                                    <label class="attendance-option absent-option">
+
+                                                        <input
+                                                            type="radio"
+                                                            name="status_{{ student.id }}"
+                                                            value="Absent"
+                                                            {% if student.status == 'Absent' %}
+                                                                checked
+                                                            {% endif %}
+                                                            required
+                                                        >
+
+                                                        <span>✕ Absent</span>
+
+                                                    </label>
+
+                                                </div>
+
+                                            </td>
+
+                                        </tr>
+
+                                    {% endfor %}
+
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+
+                        <div class="attendance-save-area">
+
+                            <p>
+                                Make sure every student is marked before saving.
+                            </p>
+
+                            <button type="submit"
+                                    class="student-primary-btn">
+                                Save Attendance
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                {% else %}
+
+                    <div class="attendance-empty">
+
+                        <div>📚</div>
+
+                        <h3>No Students Found</h3>
+
+                        <p>
+                            There are no registered students in
+                            {{ selected_class }}.
+                            Add students first in Student Management.
+                        </p>
+
+                        <a href="{{ url_for('students') }}"
+                           class="student-primary-btn">
+                            Go to Student Management
+                        </a>
+
+                    </div>
+
+                {% endif %}
+
+            </section>
+
+
+            <footer class="portal-footer">
+                © 2026 ProSchool School Faculty Portal.
+            </footer>
+
+        </div>
+
+    </main>
+
+</div>
+
+</body>
+</html>

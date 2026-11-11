@@ -1,0 +1,321 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ProSchool | Announcements</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}?v=13">
+</head>
+
+<body class="portal-body">
+
+<div class="portal-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="portal-sidebar">
+
+        <div class="portal-brand">
+            <div class="portal-logo">E</div>
+            <span>ProSchool</span>
+        </div>
+
+        <p class="sidebar-heading">SCHOOL WORKSPACE</p>
+
+        <nav class="portal-nav">
+
+            <a href="{{ url_for('dashboard') }}"
+               class="portal-nav-item">
+                <span>▦</span> Dashboard
+            </a>
+
+            <a href="{{ url_for('students') }}"
+               class="portal-nav-item">
+                <span>♙</span> Students
+            </a>
+
+            <a href="{{ url_for('attendance') }}"
+               class="portal-nav-item">
+                <span>◷</span> Attendance
+            </a>
+
+            <a href="{{ url_for('marks') }}"
+               class="portal-nav-item">
+                <span>▤</span> Marks & Results
+            </a>
+
+            <a href="{{ url_for('subjects') }}"
+               class="portal-nav-item">
+                <span>▣</span> Subjects
+            </a>
+
+            <a href="{{ url_for('timetable') }}"
+               class="portal-nav-item">
+                <span>▦</span> Timetable
+            </a>
+
+            <a href="{{ url_for('announcements') }}"
+               class="portal-nav-item active">
+                <span>♢</span> Announcements
+            </a>
+
+        </nav>
+
+        <div class="portal-sidebar-bottom">
+
+            <a href="{{ url_for('logout') }}"
+               class="portal-nav-item">
+                <span>↪</span> Logout
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+    <main class="portal-main">
+
+        <header class="portal-topbar">
+
+            <div>
+                <p class="topbar-label">SCHOOL FACULTY WORKSPACE</p>
+                <h2>Announcements Management</h2>
+            </div>
+
+            <div class="faculty-profile">
+
+                <div class="faculty-avatar">FA</div>
+
+                <div>
+                    <h4>Faculty Account</h4>
+                    <p>School Faculty</p>
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <div class="portal-content">
+
+            <!-- PAGE HEADING -->
+            <div class="students-heading">
+
+                <div>
+                    <h1>School Announcements</h1>
+
+                    <p>
+                        Publish and manage important school notices and updates.
+                    </p>
+                </div>
+
+                <div class="student-count">
+                    Total Notices: {{ announcements|length }}
+                </div>
+
+            </div>
+
+
+            <!-- FLASH MESSAGES -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+
+                {% for category, message in messages %}
+
+                    <div class="student-message {{ category }}">
+                        {{ message }}
+                    </div>
+
+                {% endfor %}
+
+            {% endwith %}
+
+
+            <!-- CREATE ANNOUNCEMENT -->
+            <section class="student-panel">
+
+                <div class="student-panel-heading">
+
+                    <h3>Publish New Announcement</h3>
+
+                    <p>
+                        Enter the notice details and choose the audience.
+                    </p>
+
+                </div>
+
+
+                <form action="{{ url_for('add_announcement') }}"
+                      method="POST">
+
+                    <div class="student-form-grid">
+
+                        <div class="student-field">
+
+                            <label>Announcement Title *</label>
+
+                            <input type="text"
+                                   name="title"
+                                   placeholder="Example: Quarterly Examination Notice"
+                                   maxlength="150"
+                                   required>
+
+                        </div>
+
+
+                        <div class="student-field">
+
+                            <label>Target Audience *</label>
+
+                            <select name="target_class" required>
+
+                                <option value="All School">
+                                    All School
+                                </option>
+
+                                {% for class_name in school_classes %}
+
+                                    <option value="{{ class_name }}">
+                                        {{ class_name }}
+                                    </option>
+
+                                {% endfor %}
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="student-field announcement-message-field">
+
+                            <label>Announcement Details *</label>
+
+                            <textarea name="message"
+                                      rows="5"
+                                      maxlength="3000"
+                                      placeholder="Write your school announcement here..."
+                                      required></textarea>
+
+                        </div>
+
+                    </div>
+
+
+                    <button type="submit"
+                            class="student-primary-btn">
+                        + Publish Announcement
+                    </button>
+
+                </form>
+
+            </section>
+
+
+            <!-- ANNOUNCEMENT LIST -->
+            <section class="student-panel">
+
+                <div class="student-panel-heading">
+
+                    <h3>Published Announcements</h3>
+
+                    <p>
+                        View and manage your previously published notices.
+                    </p>
+
+                </div>
+
+
+                <div class="announcement-list">
+
+                    {% for announcement in announcements %}
+
+                        <article class="announcement-card">
+
+                            <div class="announcement-card-top">
+
+                                <div class="announcement-icon">
+                                    📢
+                                </div>
+
+                                <div class="announcement-heading">
+
+                                    <h3>{{ announcement.title }}</h3>
+
+                                    <span class="announcement-audience">
+                                        {{ announcement.target_class }}
+                                    </span>
+
+                                </div>
+
+                                <form
+                                    action="{{ url_for('delete_announcement', announcement_id=announcement.id) }}"
+                                    method="POST"
+                                    onsubmit="return confirm('Are you sure you want to delete this announcement?');">
+
+                                    <button type="submit"
+                                            class="student-delete-btn">
+                                        Delete
+                                    </button>
+
+                                </form>
+
+                            </div>
+
+
+                            <p class="announcement-description">
+                                {{ announcement.message }}
+                            </p>
+
+
+                            <div class="announcement-footer">
+
+                                <span>
+                                    Published by {{ announcement.faculty_email }}
+                                </span>
+
+                                <span>
+                                    {{ announcement.created_at }}
+                                </span>
+
+                            </div>
+
+                        </article>
+
+                    {% else %}
+
+                        <div class="attendance-empty">
+
+                            <div>📢</div>
+
+                            <h3>No Announcements Yet</h3>
+
+                            <p>
+                                Publish your first school announcement
+                                using the form above.
+                            </p>
+
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+            </section>
+
+
+            <footer class="portal-footer">
+                © 2026 ProSchool School Faculty Portal.
+            </footer>
+
+        </div>
+
+    </main>
+
+</div>
+
+</body>
+</html>

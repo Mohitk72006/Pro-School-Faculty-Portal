@@ -1,0 +1,207 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ProSchool | Edit Student</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}?v=6">
+</head>
+
+<body class="portal-body">
+
+<div class="portal-layout">
+
+    <aside class="portal-sidebar">
+
+        <div class="portal-brand">
+            <div class="portal-logo">E</div>
+            <span>ProSchool</span>
+        </div>
+
+        <p class="sidebar-heading">SCHOOL WORKSPACE</p>
+
+        <nav class="portal-nav">
+
+            <a href="{{ url_for('dashboard') }}"
+               class="portal-nav-item">
+                <span>▦</span> Dashboard
+            </a>
+
+            <a href="{{ url_for('students') }}"
+               class="portal-nav-item active">
+                <span>♙</span> Students
+            </a>
+
+        </nav>
+
+        <div class="portal-sidebar-bottom">
+
+            <a href="{{ url_for('logout') }}"
+               class="portal-nav-item">
+                <span>↪</span> Logout
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <main class="portal-main">
+
+        <header class="portal-topbar">
+
+            <div>
+                <p class="topbar-label">SCHOOL FACULTY WORKSPACE</p>
+                <h2>Edit Student</h2>
+            </div>
+
+        </header>
+
+
+        <div class="portal-content">
+
+            <div class="students-heading">
+
+                <div>
+                    <h1>Update Student Details</h1>
+                    <p>Modify the selected student's information.</p>
+                </div>
+
+            </div>
+
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+
+                {% if messages %}
+
+                    {% for category, message in messages %}
+
+                        <div class="student-message {{ category }}">
+                            {{ message }}
+                        </div>
+
+                    {% endfor %}
+
+                {% endif %}
+
+            {% endwith %}
+
+
+            <section class="student-panel">
+
+                <div class="student-panel-heading">
+
+                    <h3>Edit Student Information</h3>
+
+                </div>
+
+
+                <form method="POST">
+
+                    <div class="student-form-grid">
+
+                        <div class="student-field">
+
+                            <label>Student Name *</label>
+
+                            <input type="text"
+                                   name="name"
+                                   value="{{ student.name }}"
+                                   required>
+
+                        </div>
+
+
+                        <div class="student-field">
+
+                            <label>Admission Number *</label>
+
+                            <input type="text"
+                                   name="roll_number"
+                                   value="{{ student.roll_number }}"
+                                   required>
+
+                        </div>
+
+
+                        <div class="student-field">
+
+                            <label>Class / Standard *</label>
+
+                            <select name="class_name" required>
+
+                                <option value="">Select Standard</option>
+
+                                {% for class_name in school_classes %}
+
+                                    <option value="{{ class_name }}"
+                                        {% if student.class_name == class_name %}
+                                            selected
+                                        {% endif %}>
+
+                                        {{ class_name }}
+
+                                    </option>
+
+                                {% endfor %}
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="student-field">
+
+                            <label>Email Address</label>
+
+                            <input type="email"
+                                   name="email"
+                                   value="{{ student.email or '' }}">
+
+                        </div>
+
+
+                        <div class="student-field">
+
+                            <label>Phone Number</label>
+
+                            <input type="tel"
+                                   name="phone"
+                                   value="{{ student.phone or '' }}">
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="student-edit-actions">
+
+                        <button type="submit"
+                                class="student-primary-btn">
+                            Save Changes
+                        </button>
+
+                        <a href="{{ url_for('students') }}"
+                           class="student-cancel-btn">
+                            Cancel
+                        </a>
+
+                    </div>
+
+                </form>
+
+            </section>
+
+        </div>
+
+    </main>
+
+</div>
+
+</body>
+</html>

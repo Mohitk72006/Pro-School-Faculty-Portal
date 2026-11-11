@@ -1,0 +1,280 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ProSchool | Subject Management</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}?v=10">
+</head>
+
+<body class="portal-body">
+
+<div class="portal-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="portal-sidebar">
+
+        <div class="portal-brand">
+            <div class="portal-logo">E</div>
+            <span>ProSchool</span>
+        </div>
+
+        <p class="sidebar-heading">SCHOOL WORKSPACE</p>
+
+        <nav class="portal-nav">
+
+            <a href="{{ url_for('dashboard') }}" class="portal-nav-item">
+                <span>▦</span> Dashboard
+            </a>
+
+            <a href="{{ url_for('students') }}" class="portal-nav-item">
+                <span>♙</span> Students
+            </a>
+
+            <a href="{{ url_for('attendance') }}" class="portal-nav-item">
+                <span>◷</span> Attendance
+            </a>
+
+            <a href="{{ url_for('marks') }}" class="portal-nav-item">
+                <span>▤</span> Marks & Results
+            </a>
+
+            <a href="{{ url_for('subjects') }}"
+               class="portal-nav-item active">
+                <span>▣</span> Subjects
+            </a>
+
+            <a href="{{ url_for('dashboard') }}" class="portal-nav-item">
+                <span>▦</span> Timetable
+            </a>
+
+        </nav>
+
+        <div class="portal-sidebar-bottom">
+
+            <a href="{{ url_for('logout') }}" class="portal-nav-item">
+                <span>↪</span> Logout
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+    <main class="portal-main">
+
+        <header class="portal-topbar">
+
+            <div>
+                <p class="topbar-label">SCHOOL FACULTY WORKSPACE</p>
+                <h2>Subject Management</h2>
+            </div>
+
+            <div class="faculty-profile">
+                <div class="faculty-avatar">FA</div>
+
+                <div>
+                    <h4>Faculty Account</h4>
+                    <p>School Faculty</p>
+                </div>
+            </div>
+
+        </header>
+
+
+        <div class="portal-content">
+
+            <!-- PAGE HEADING -->
+            <div class="students-heading">
+
+                <div>
+                    <h1>My Assigned Subjects</h1>
+                    <p>
+                        Manage subjects assigned to different school standards.
+                    </p>
+                </div>
+
+                <div class="student-count">
+                    Total Subjects: {{ subjects|length }}
+                </div>
+
+            </div>
+
+
+            <!-- FLASH MESSAGES -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+
+                {% for category, message in messages %}
+
+                    <div class="student-message {{ category }}">
+                        {{ message }}
+                    </div>
+
+                {% endfor %}
+
+            {% endwith %}
+
+
+            <!-- ADD SUBJECT -->
+            <section class="student-panel">
+
+                <div class="student-panel-heading">
+                    <h3>Assign New Subject</h3>
+                    <p>Select a subject and school standard.</p>
+                </div>
+
+                <form action="{{ url_for('add_subject') }}"
+                      method="POST">
+
+                    <div class="student-form-grid">
+
+                        <div class="student-field">
+
+                            <label>School Standard *</label>
+
+                            <select name="class_name" required>
+
+                                <option value="">Select Standard</option>
+
+                                {% for class_name in school_classes %}
+
+                                    <option value="{{ class_name }}">
+                                        {{ class_name }}
+                                    </option>
+
+                                {% endfor %}
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="student-field">
+
+                            <label>Subject *</label>
+
+                            <select name="subject_name" required>
+
+                                <option value="">Select Subject</option>
+
+                                {% for subject in school_subjects %}
+
+                                    <option value="{{ subject }}">
+                                        {{ subject }}
+                                    </option>
+
+                                {% endfor %}
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+                    <button type="submit" class="student-primary-btn">
+                        + Assign Subject
+                    </button>
+
+                </form>
+
+            </section>
+
+
+            <!-- SUBJECT DIRECTORY -->
+            <section class="student-panel">
+
+                <div class="student-panel-heading">
+                    <h3>Assigned Subject Directory</h3>
+                    <p>View your saved subject assignments.</p>
+                </div>
+
+                <div class="student-table-wrapper">
+
+                    <table class="student-data-table">
+
+                        <thead>
+
+                            <tr>
+                                <th>S.No</th>
+                                <th>Subject Name</th>
+                                <th>School Standard</th>
+                                <th>Assigned Faculty</th>
+                                <th>Action</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            {% for subject in subjects %}
+
+                                <tr>
+
+                                    <td>{{ loop.index }}</td>
+
+                                    <td>
+                                        <strong>
+                                            {{ subject.subject_name }}
+                                        </strong>
+                                    </td>
+
+                                    <td>{{ subject.class_name }}</td>
+
+                                    <td>{{ subject.faculty_email }}</td>
+
+                                    <td>
+
+                                        <form
+                                            action="{{ url_for('delete_subject', subject_id=subject.id) }}"
+                                            method="POST"
+                                            onsubmit="return confirm('Are you sure you want to remove this subject?');">
+
+                                            <button type="submit"
+                                                    class="student-delete-btn">
+                                                Remove
+                                            </button>
+
+                                        </form>
+
+                                    </td>
+
+                                </tr>
+
+                            {% else %}
+
+                                <tr>
+                                    <td colspan="5" class="student-empty">
+                                        No subjects assigned yet.
+                                        Add your first subject above.
+                                    </td>
+                                </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </section>
+
+
+            <footer class="portal-footer">
+                © 2026 ProSchool School Faculty Portal.
+            </footer>
+
+        </div>
+
+    </main>
+
+</div>
+
+</body>
+</html>

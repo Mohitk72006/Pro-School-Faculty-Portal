@@ -1,0 +1,91 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProSchool | Faculty Registration</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+<div class="login-container">
+
+    <div class="login-left">
+
+        <h1>ProSchool</h1>
+
+        <h2>Join Your School Faculty Workspace.</h2>
+
+        <p>
+            Create your faculty account to manage your
+            academic activities and school responsibilities.
+        </p>
+
+    </div>
+
+
+    <div class="login-right">
+
+        <form action="{{ url_for('register') }}" method="POST">
+
+            <h2>Faculty Registration</h2>
+
+            <p>Create your personal faculty account.</p>
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% for category, message in messages %}
+                    <p class="{{ category }}">{{ message }}</p>
+                {% endfor %}
+            {% endwith %}
+
+            <label>Faculty Name</label>
+
+            <input type="text"
+                   name="faculty_name"
+                   placeholder="Enter your full name"
+                   required>
+
+            <label>Faculty Email</label>
+
+            <input type="email"
+                   name="email"
+                   placeholder="Enter your email"
+                   required>
+
+            <label>Password</label>
+
+            <input type="password"
+                   name="password"
+                   placeholder="Minimum 8 characters"
+                   minlength="8"
+                   required>
+
+            <label>Confirm Password</label>
+
+            <input type="password"
+                   name="confirm_password"
+                   placeholder="Re-enter password"
+                   minlength="8"
+                   required>
+
+            <button type="submit">
+                Create Faculty Account
+            </button>
+
+            <p class="demo-note">
+                Already registered?
+                <a href="{{ url_for('home') }}">Login here</a>
+            </p>
+
+        </form>
+
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -97,8 +97,15 @@
 
 <div class="portal-layout">
 
-    <aside class="portal-sidebar">
-        <h2 style="color:white; padding:20px;">P PRO SCHOOL</h2>
+<aside class="portal-sidebar">
+    <div style="padding: 20px; text-align: center;">
+        <img
+            src="{{ url_for('static', filename='proschool_logo.png') }}"
+            alt="ProSchool Academic Portal"
+            style="width: 190px; max-width: 100%; height: auto;"
+        >
+    </div>
+
 
         <nav style="padding:10px;">
             <a href="{{ url_for('dashboard') }}">Dashboard</a><br><br>

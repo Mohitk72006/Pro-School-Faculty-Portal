@@ -6,10 +6,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title> | Faculty Profile</title>
+    <title>ProSchool | Faculty Profile</title>
 
     <link rel="stylesheet"
-          href="{{ url_for('static', filename='css/style.css') }}?v=16">
+          href="{{ url_for('static', filename='css/style.css') }}?v=17">
 </head>
 
 <body class="portal-body">
@@ -19,9 +19,13 @@
     <!-- LEFT SIDEBAR -->
     <aside class="portal-sidebar">
 
-        <div class="portal-brand">
-            <div class="portal-logo">E</div>
-            <span>ProSchool</span>
+        <!-- PROSCHOOL IMAGE LOGO -->
+        <div style="padding: 20px; text-align: center;">
+            <img
+                src="{{ url_for('static', filename='proschool_logo.png') }}"
+                alt="ProSchool Academic Portal"
+                style="width: 190px; max-width: 100%; height: auto;"
+            >
         </div>
 
         <p class="sidebar-heading">SCHOOL WORKSPACE</p>

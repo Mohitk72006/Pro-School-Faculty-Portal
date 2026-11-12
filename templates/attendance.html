@@ -9,7 +9,7 @@
     <title>ProSchool | Attendance Management</title>
 
     <link rel="stylesheet"
-          href="{{ url_for('static', filename='css/style.css') }}?v=8">
+          href="{{ url_for('static', filename='css/style.css') }}?v=9">
 </head>
 
 <body class="portal-body">
@@ -19,9 +19,13 @@
     <!-- SIDEBAR -->
     <aside class="portal-sidebar">
 
+        <!-- PROSCHOOL LOGO -->
         <div class="portal-brand">
-            <div class="portal-logo">E</div>
-            <span>ProSchool</span>
+            <img
+                src="{{ url_for('static', filename='proschool_logo.png') }}"
+                alt="ProSchool Academic Portal"
+                style="width: 190px; max-width: 100%; height: auto; display: block; object-fit: contain;"
+            >
         </div>
 
         <p class="sidebar-heading">SCHOOL WORKSPACE</p>
@@ -43,19 +47,34 @@
                 <span>◷</span> Attendance
             </a>
 
-            <a href="{{ url_for('dashboard') }}"
+            <a href="{{ url_for('marks') }}"
                class="portal-nav-item">
                 <span>▤</span> Marks & Results
             </a>
 
-            <a href="{{ url_for('dashboard') }}"
+            <a href="{{ url_for('subjects') }}"
                class="portal-nav-item">
                 <span>▣</span> Subjects
             </a>
 
-            <a href="{{ url_for('dashboard') }}"
+            <a href="{{ url_for('timetable') }}"
                class="portal-nav-item">
                 <span>▦</span> Timetable
+            </a>
+
+            <a href="{{ url_for('announcements') }}"
+               class="portal-nav-item">
+                <span>◇</span> Announcements
+            </a>
+
+            <a href="{{ url_for('assignments') }}"
+               class="portal-nav-item">
+                <span>✎</span> Assignments & Homework
+            </a>
+
+            <a href="{{ url_for('faculty_profile') }}"
+               class="portal-nav-item">
+                <span>♙</span> Faculty Profile
             </a>
 
         </nav>

@@ -9,7 +9,7 @@
     <title>ProSchool | Announcements</title>
 
     <link rel="stylesheet"
-          href="{{ url_for('static', filename='css/style.css') }}?v=13">
+          href="{{ url_for('static', filename='css/style.css') }}?v=14">
 </head>
 
 <body class="portal-body">
@@ -19,9 +19,13 @@
     <!-- SIDEBAR -->
     <aside class="portal-sidebar">
 
-        <div class="portal-brand">
-            <div class="portal-logo">E</div>
-            <span>ProSchool</span>
+        <!-- PROSCHOOL IMAGE LOGO -->
+        <div style="padding: 20px; text-align: center;">
+            <img
+                src="{{ url_for('static', filename='proschool_logo.png') }}"
+                alt="ProSchool Academic Portal"
+                style="width: 190px; max-width: 100%; height: auto;"
+            >
         </div>
 
         <p class="sidebar-heading">SCHOOL WORKSPACE</p>

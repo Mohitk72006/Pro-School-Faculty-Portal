@@ -19,9 +19,13 @@
     <!-- SIDEBAR -->
     <aside class="portal-sidebar">
 
+        <!-- PROSCHOOL LOGO -->
         <div class="portal-brand">
-            <div class="portal-logo">E</div>
-            <span>ProSchool</span>
+            <img
+                src="{{ url_for('static', filename='proschool_logo.png') }}"
+                alt="ProSchool Academic Portal"
+                style="width: 190px; max-width: 100%; height: auto; display: block; object-fit: contain;"
+            >
         </div>
 
         <p class="sidebar-heading">SCHOOL WORKSPACE</p>
@@ -71,7 +75,6 @@
 
     </aside>
 
-
     <!-- MAIN CONTENT -->
     <main class="portal-main">
 
@@ -93,7 +96,6 @@
 
         </header>
 
-
         <div class="portal-content">
 
             <!-- PAGE HEADING -->
@@ -113,7 +115,6 @@
 
             </div>
 
-
             <!-- FLASH MESSAGES -->
             {% with messages = get_flashed_messages(with_categories=true) %}
 
@@ -126,7 +127,6 @@
                 {% endfor %}
 
             {% endwith %}
-
 
             <!-- EXAMINATION FILTER -->
             <section class="student-panel">
@@ -160,7 +160,6 @@
                             </select>
                         </div>
 
-
                         <div class="student-field">
                             <label>Subject</label>
 
@@ -179,7 +178,6 @@
 
                             </select>
                         </div>
-
 
                         <div class="student-field">
                             <label>Examination</label>
@@ -200,7 +198,6 @@
                             </select>
                         </div>
 
-
                         <div class="student-field">
                             <label>Examination Date</label>
 
@@ -209,7 +206,6 @@
                                    value="{{ exam_date }}"
                                    required>
                         </div>
-
 
                         <div class="student-field">
                             <label>Maximum Marks</label>
@@ -233,7 +229,6 @@
                 </form>
 
             </section>
-
 
             <!-- SUMMARY CARDS -->
             <section class="attendance-stat-grid">
@@ -264,7 +259,6 @@
 
             </section>
 
-
             <!-- MARKS TABLE -->
             <section class="student-panel">
 
@@ -277,7 +271,6 @@
                         {{ exam_name }}
                     </p>
                 </div>
-
 
                 {% if students %}
 
@@ -304,7 +297,6 @@
                                name="max_marks"
                                value="{{ max_marks }}">
 
-
                         <div class="student-table-wrapper">
 
                             <table class="student-data-table">
@@ -319,7 +311,6 @@
                                         <th>Grade</th>
                                     </tr>
                                 </thead>
-
 
                                 <tbody>
 
@@ -364,29 +355,17 @@
                                                     {% set percentage = (student.marks_obtained / student.max_marks * 100) %}
 
                                                     {% if percentage >= 90 %}
-
                                                         <span class="portal-status completed">A+</span>
-
                                                     {% elif percentage >= 80 %}
-
                                                         <span class="portal-status completed">A</span>
-
                                                     {% elif percentage >= 70 %}
-
                                                         <span class="portal-status completed">B</span>
-
                                                     {% elif percentage >= 60 %}
-
                                                         <span class="portal-status pending">C</span>
-
                                                     {% elif percentage >= 50 %}
-
                                                         <span class="portal-status pending">D</span>
-
                                                     {% else %}
-
                                                         <span class="portal-status failed">Fail</span>
-
                                                     {% endif %}
 
                                                 {% else %}
@@ -408,7 +387,6 @@
                             </table>
 
                         </div>
-
 
                         <div class="attendance-save-area">
 
@@ -448,7 +426,6 @@
                 {% endif %}
 
             </section>
-
 
             <footer class="portal-footer">
                 © 2026 ProSchool School Faculty Portal.
